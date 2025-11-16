@@ -17,13 +17,13 @@
             <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent2">
               <ul id="nav2" class="navbar-nav ml-auto">
                 <li class="nav-item">
-                  <a class="page-scroll active" href="#home">Home</a>
+                  <a class="page-scroll active" href="{{ route('dashboard') }}">Home</a>
                 </li>
                 <li class="nav-item">
-                  <a class="page-scroll" href="#services">Services</a>
+                  <a class="page-scroll" href="{{ route('warga.index') }}">Warga</a>
                 </li>
                 <li class="nav-item">
-                  <a class="page-scroll" href="#about">About</a>
+                  <a class="page-scroll" href="{{ route('jenis-dokumen.index') }}">Jenis Dokumen</a>
                 </li>
                 <li class="nav-item">
                   <a class="page-scroll" href="#pricing">Pricing</a>

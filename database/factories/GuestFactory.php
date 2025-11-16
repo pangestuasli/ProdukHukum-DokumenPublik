@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Guest>
  */
-class UserFactory extends Factory
+class GuestFactory extends Factory
 {
     /**
      * The current password being used by the factory.
@@ -42,3 +42,4 @@ class UserFactory extends Factory
         ]);
     }
 }
+

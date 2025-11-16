@@ -38,61 +38,31 @@
     <!-- ========================= hero-section-wrapper-2 end ========================= -->
 
     <!-- ========================= feature style-2 start ========================= -->
-    <section id="services" class="feature-section feature-style-2">
+    <section id="warga" class="feature-section feature-style-2">
       <div class="container">
         <div class="row">
           <div class="col-lg-8">
             <div class="row">
               <div class="col-xl-7 col-lg-10 col-md-9">
                 <div class="section-title mb-60">
-                  <h3 class="mb-15 wow fadeInUp" data-wow-delay=".2s">The future of designing starts here</h3>
-                  <p class="wow fadeInUp" data-wow-delay=".4s">Stop wasting time and money designing and managing a website that doesn't get results. Happiness guaranteed!</p>
+                  <h3 class="mb-15 wow fadeInUp" data-wow-delay=".2s">Data Warga</h3>
+                  <p class="wow fadeInUp" data-wow-delay=".4s">Kelola data warga dengan mudah. Tambah, edit, dan hapus data warga.</p>
                 </div>
               </div>
             </div>
 
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <div class="single-feature wow fadeInUp" data-wow-delay=".2s">
                   <div class="icon">
-                    <i class="lni lni-vector"></i>
+                    <i class="lni lni-users"></i>
                   </div>
                   <div class="content">
-                    <h5 class="mb-25">Graphics Design</h5>
-                    <p>Short description for the ones who look for something new.</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="single-feature wow fadeInUp" data-wow-delay=".4s">
-                  <div class="icon">
-                    <i class="lni lni-layers"></i>
-                  </div>
-                  <div class="content">
-                    <h5 class="mb-25">UI/UX Design</h5>
-                    <p>Short description for the ones who look for something new.</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="single-feature wow fadeInUp" data-wow-delay=".6s">
-                  <div class="icon">
-                    <i class="lni lni-layout"></i>
-                  </div>
-                  <div class="content">
-                    <h5 class="mb-25">Web Design</h5>
-                    <p>Short description for the ones who look for something new.</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="single-feature wow fadeInUp" data-wow-delay=".8s">
-                  <div class="icon">
-                    <i class="lni lni-display"></i>
-                  </div>
-                  <div class="content">
-                    <h5 class="mb-25">Web Development</h5>
-                    <p>Short description for the ones who look for something new.</p>
+                    <h5 class="mb-25">Kelola Data Warga</h5>
+                    <p>Lakukan operasi CRUD (Create, Read, Update, Delete) pada data warga dengan mudah.</p>
+                    <div class="buttons mt-30">
+                      <a href="{{ route('warga.index') }}" class="button button-lg radius-10">Kelola Warga <i class="lni lni-arrow-right"></i></a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -108,7 +78,7 @@
     <!-- ========================= feature style-2 end ========================= -->
 
     <!-- ========================= about style-3 start ========================= -->
-    <section id="about" class="about-section about-style-3">
+    <section id="jenis-dokumen" class="about-section about-style-3">
       <div class="container">
         <div class="row align-items-center">
           <div class="col-lg-6">
@@ -119,24 +89,12 @@
           <div class="col-lg-6">
             <div class="about-content-wrapper">
               <div class="section-title mb-40">
-                <h3 class="mb-25 wow fadeInUp" data-wow-delay=".2s">The future of designing starts here</h3>
-                <p class="wow fadeInUp" data-wow-delay=".4s">Stop wasting time and money designing and managing a website that doesn't get results. Happiness guaranteed, Stop wasting time and money designing and managing a website that doesn't get results. Happiness guaranteed,</p>
+                <h3 class="mb-25 wow fadeInUp" data-wow-delay=".2s">Jenis Dokumen</h3>
+                <p class="wow fadeInUp" data-wow-delay=".4s">Kelola jenis dokumen dengan mudah. Tambah, edit, dan hapus jenis dokumen yang tersedia.</p>
               </div>
-              <div class="counter-up-wrapper mb-40 wow fadeInUp" data-wow-delay=".6s">
-                <div class="single-counter">
-                  <h4 class="countup" id="secondo1" cup-end="123" cup-append="M">123 M</h4>
-                  <h6>Happy Client</h6>
-                </div>
-                <div class="single-counter">
-                  <h4 class="countup" id="secondo2" cup-end="1434" cup-append="K">1434 K</h4>
-                  <h6>Project Done</h6>
-                </div>
-                <div class="single-counter">
-                  <h4 class="countup" id="secondo3" cup-end="134" cup-append="K">134 K</h4>
-                  <h6>Award Win</h6>
-                </div>
+              <div class="buttons mb-40 wow fadeInUp" data-wow-delay=".6s">
+                <a href="{{ route('jenis-dokumen.index') }}" class="button button-lg radius-3">Kelola Jenis Dokumen <i class="lni lni-arrow-right"></i></a>
               </div>
-              <a href="#0" class="button button-lg radius-3 wow fadeInUp" data-wow-delay=".7s">Learn More</a>
             </div>
           </div>
         </div>
