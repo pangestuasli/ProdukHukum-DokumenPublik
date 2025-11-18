@@ -39,8 +39,8 @@
                     <select id="jenis_kelamin" name="jenis_kelamin"
                             class="form-select @error('jenis_kelamin') is-invalid @enderror" required>
                         <option value="">-- Pilih Jenis Kelamin --</option>
-                        <option value="L" {{ old('jenis_kelamin', $warga->jenis_kelamin) == 'L' ? 'selected' : '' }}>Laki-laki</option>
-                        <option value="P" {{ old('jenis_kelamin', $warga->jenis_kelamin) == 'P' ? 'selected' : '' }}>Perempuan</option>
+                        <option value="Laki-laki" {{ old('jenis_kelamin', $warga->jenis_kelamin) == 'L' ? 'selected' : '' }}>Laki-laki</option>
+                        <option value="Perempuan" {{ old('jenis_kelamin', $warga->jenis_kelamin) == 'P' ? 'selected' : '' }}>Perempuan</option>
                     </select>
                     @error('jenis_kelamin')
                         <div class="invalid-feedback">{{ $message }}</div>

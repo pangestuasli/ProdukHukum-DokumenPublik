@@ -20,19 +20,21 @@ class WargaController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'no_ktp' => 'required|unique:wargas|max:20',
-            'nama' => 'required|string|max:255',
-            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-            'agama' => 'required|string|max:50',
-            'pekerjaan' => 'nullable|string|max:100',
-            'telp' => 'nullable|string|max:20',
-            'email' => 'nullable|email|max:100',
-        ]);
+         $validated = $request->validate([
+        'no_ktp'        => 'required|unique:wargas,no_ktp|max:20',
+        'nama'          => 'required|string|max:255',
+        'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+        'agama'         => 'required|string|max:50',
+        'pekerjaan'     => 'nullable|string|max:100',
+        'telp'          => 'nullable|string|max:20',
+        'email'         => 'nullable|email|max:100',
+    ]);
 
-        Warga::create($request->all());
+    Warga::create($validated);
 
-        return redirect()->route('warga.index')->with('success', 'Data warga berhasil ditambahkan.');
+    return redirect()
+        ->route('warga.index')
+        ->with('success', 'Data warga berhasil ditambahkan.');
     }
 
     public function edit(Warga $warga)
@@ -42,19 +44,21 @@ class WargaController extends Controller
 
     public function update(Request $request, Warga $warga)
     {
-        $request->validate([
-            'no_ktp' => 'required|max:20|unique:wargas,no_ktp,' . $warga->warga_id . ',warga_id',
-            'nama' => 'required|string|max:255',
-            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-            'agama' => 'required|string|max:50',
-            'pekerjaan' => 'nullable|string|max:100',
-            'telp' => 'nullable|string|max:20',
-            'email' => 'nullable|email|max:100',
-        ]);
+        $validated = $request->validate([
+        'no_ktp'        => 'required|max:20|unique:wargas,no_ktp,' . $warga->warga_id . ',warga_id',
+        'nama'          => 'required|string|max:255',
+        'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+        'agama'         => 'required|string|max:50',
+        'pekerjaan'     => 'nullable|string|max:100',
+        'telp'          => 'nullable|string|max:20',
+        'email'         => 'nullable|email|max:100',
+    ]);
 
-        $warga->update($request->all());
+    $warga->update($validated);
 
-        return redirect()->route('warga.index')->with('success', 'Data warga berhasil diperbarui.');
+    return redirect()
+        ->route('warga.index')
+        ->with('success', 'Data warga berhasil diperbarui.');
     }
 
     public function destroy(Warga $warga)

@@ -20,15 +20,16 @@ class JenisDokumenController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nama_jenis' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
         ]);
 
-        JenisDokumen::create($request->all());
+        JenisDokumen::create($validated);
 
-        return redirect()->route('jenis_dokumen.index')
-                         ->with('success', 'Jenis dokumen berhasil ditambahkan.');
+        return redirect()
+            ->route('jenis_dokumen.index')
+            ->with('success', 'Jenis dokumen berhasil ditambahkan.');
     }
 
     public function edit(JenisDokumen $jenis_dokumen)
@@ -38,22 +39,24 @@ class JenisDokumenController extends Controller
 
     public function update(Request $request, JenisDokumen $jenis_dokumen)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nama_jenis' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
         ]);
 
-        $jenis_dokumen->update($request->all());
+        $jenis_dokumen->update($validated);
 
-        return redirect()->route('jenis_dokumen.index')
-                         ->with('success', 'Jenis dokumen berhasil diperbarui.');
+        return redirect()
+            ->route('jenis_dokumen.index')
+            ->with('success', 'Jenis dokumen berhasil diperbarui.');
     }
 
     public function destroy(JenisDokumen $jenis_dokumen)
     {
         $jenis_dokumen->delete();
 
-        return redirect()->route('jenis_dokumen.index')
-                         ->with('success', 'Jenis dokumen berhasil dihapus.');
+        return redirect()
+            ->route('jenis_dokumen.index')
+            ->with('success', 'Jenis dokumen berhasil dihapus.');
     }
 }
