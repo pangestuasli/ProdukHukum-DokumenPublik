@@ -37,7 +37,17 @@
         <div class="row">
             @forelse($jenisDokumen as $item)
             <div class="col-lg-4 col-md-6 col-sm-12 mb-30">
-                <div class="single-pricing wow fadeInUp" data-wow-delay=".2s" style="min-height: 300px;">
+                <div class="single-pricing document-type-card wow fadeInUp" data-wow-delay=".2s">
+                    <div class="document-type-card__media">
+                        @if($item->foto_path)
+                            <img src="{{ asset('storage/' . $item->foto_path) }}" alt="Foto {{ $item->nama_jenis }}">
+                        @else
+                            <div class="document-type-card__placeholder">
+                                <i class="lni lni-image"></i>
+                                <span>Belum ada foto</span>
+                            </div>
+                        @endif
+                    </div>
                     <div class="content">
                         <h6 class="mb-20">{{ $item->nama_jenis }}</h6>
                         <div class="mb-20">
@@ -69,4 +79,44 @@
     </div>
 </section>
 @endsection
+
+<style>
+.document-type-card {
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 25px;
+}
+
+.document-type-card__media {
+    width: 100%;
+    height: 180px;
+    border-radius: 18px;
+    overflow: hidden;
+    background: #f1f4fb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.document-type-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.document-type-card__placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    color: #6c789b;
+    font-weight: 500;
+}
+
+.document-type-card__placeholder i {
+    font-size: 30px;
+}
+</style>
 

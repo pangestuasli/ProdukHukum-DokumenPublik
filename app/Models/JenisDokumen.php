@@ -9,5 +9,6 @@ class JenisDokumen extends Model
     protected $fillable = [
         'nama_jenis',
         'deskripsi',
+        'foto_path',
     ];
 }

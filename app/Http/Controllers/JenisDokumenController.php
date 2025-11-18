@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\JenisDokumen;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class JenisDokumenController extends Controller
 {
@@ -32,7 +33,12 @@ class JenisDokumenController extends Controller
         $validated = $request->validate([
             'nama_jenis' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
+
+        if ($request->hasFile('foto')) {
+            $validated['foto_path'] = $request->file('foto')->store('jenis-dokumen', 'public');
+        }
 
         JenisDokumen::create($validated);
 
@@ -68,7 +74,15 @@ class JenisDokumenController extends Controller
         $validated = $request->validate([
             'nama_jenis' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
+
+        if ($request->hasFile('foto')) {
+            if ($jenisDokumen->foto_path) {
+                Storage::disk('public')->delete($jenisDokumen->foto_path);
+            }
+            $validated['foto_path'] = $request->file('foto')->store('jenis-dokumen', 'public');
+        }
 
         $jenisDokumen->update($validated);
 
@@ -82,6 +96,11 @@ class JenisDokumenController extends Controller
     public function destroy(string $id)
     {
         $jenisDokumen = JenisDokumen::findOrFail($id);
+
+        if ($jenisDokumen->foto_path) {
+            Storage::disk('public')->delete($jenisDokumen->foto_path);
+        }
+
         $jenisDokumen->delete();
 
         return redirect()->route('jenis-dokumen.index')
