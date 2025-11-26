@@ -27,6 +27,44 @@
     <div class="card shadow-sm">
         <div class="card-body p-0">
 
+                <form method="GET" action="{{ route('jenis_dokumen.index') }}" class="p-3">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" 
+                       placeholder="Cari nama jenis atau deskripsi..."
+                       value="{{ request('search') }}">
+
+                <button class="btn btn-primary" type="submit">Cari</button>
+
+                @if(request('search'))
+                <a href="{{ route('jenis_dokumen.index') }}" class="btn btn-secondary">
+                    Reset
+                </a>
+                @endif
+            </div>
+
+             <div class="col-md-3">
+            <select name="filter" class="form-control">
+                <option value="">-- Filter Deskripsi --</option>
+
+                @foreach($listJenis as $jenis)
+                    <option value="{{ $jenis->nama_jenis }}"
+                        {{ request('filter') == $jenis->nama_jenis ? 'selected' : '' }}>
+                        {{ $jenis->nama_jenis }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        {{-- TOMBOL --}}
+        <div class="col-md-3 d-flex gap-2">
+            <button class="btn btn-primary w-50">Apply</button>
+
+            <a href="{{ route('jenis_dokumen.index') }}" class="btn btn-secondary w-50">
+                Reset
+            </a>
+        </div>
+        </form>
+
             <table class="table table-bordered mb-0">
                 <thead class="table-light">
                     <tr>
@@ -70,7 +108,9 @@
                 </tbody>
 
             </table>
-
+<div class="mt-3 d-flex justify-content-center">
+    {!! $data->links('pagination::bootstrap-5') !!}
+</div>
         </div>
     </div>
 
