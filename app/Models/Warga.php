@@ -19,5 +19,12 @@ class Warga extends Model
         'pekerjaan',
         'telp',
         'email',
+        'foto', // optional untuk foto profil tunggal
     ];
+
+    // Relasi ke WargaFile (multiple files)
+    public function files()
+    {
+        return $this->hasMany(WargaFile::class, 'warga_id', 'warga_id');
+    }
 }

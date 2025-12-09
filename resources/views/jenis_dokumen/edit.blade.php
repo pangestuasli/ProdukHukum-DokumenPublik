@@ -53,7 +53,7 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
-
+                
                 <!-- Buttons -->
                 <div class="d-flex justify-content-between">
                     <a href="{{ route('jenis_dokumen.index') }}" class="btn btn-secondary">

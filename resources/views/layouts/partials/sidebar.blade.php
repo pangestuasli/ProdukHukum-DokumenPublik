@@ -19,6 +19,11 @@
             <i class="menu-icon mdi mdi-account-multiple"></i>
             Warga
         </a>
+            <li class="nav-item">
+        <a class="nav-link" href="{{ route('user.index') }}">
+            <i class="menu-icon mdi mdi-account-multiple"></i>
+            User
+        </a>
         </li>
         </ul>
       </div>

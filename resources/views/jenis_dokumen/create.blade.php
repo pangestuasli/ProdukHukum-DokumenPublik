@@ -41,7 +41,7 @@
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
-
+        
         <button type="submit" class="btn btn-success">Simpan</button>
         <a href="{{ route('jenis_dokumen.index') }}" class="btn btn-secondary">Kembali</a>
     </form>
