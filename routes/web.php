@@ -6,6 +6,9 @@ use App\Http\Controllers\WargaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KategoriDokumenController;
+use App\Http\Controllers\DokumenHukumController;
+use App\Http\Controllers\RiwayatPerubahanController;   
 
 Route::get('/', function () {
     return view('welcome');
@@ -15,7 +18,15 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 
 Route::resource('jenis_dokumen', JenisDokumenController::class)
      ->parameters(['jenis_dokumen' => 'jenis_dokumen']);
+Route::resource('kategori-dokumen', KategoriDokumenController::class)->parameters([
+    'kategori-dokumen' => 'kategoriDokumen'
+]);
+Route::resource('dokumen-hukum', DokumenHukumController::class);
 
+// Routes untuk Riwayat Perubahan
+Route::resource('riwayat-perubahan', RiwayatPerubahanController::class)->parameters(
+    ['riwayat-perubahan' => 'riwayatPerubahan']);
+    
 Route::resource('user', UserController::class);
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
