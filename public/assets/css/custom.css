@@ -1,0 +1,90 @@
+/* ===============================
+   WARGA CARD MODERN BLUE STYLE
+================================ */
+
+.warga-card {
+    border-radius: 18px;
+    border: none;
+    background: linear-gradient(180deg, #f0f6ff, #ffffff);
+    transition: all .35s ease;
+    box-shadow: 0 10px 25px rgba(30, 64, 175, .12);
+}
+
+.warga-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 60px rgba(30, 64, 175, .35);
+}
+
+/* Header */
+.warga-card-header {
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    color: #fff;
+    padding: 15px;
+    border-radius: 18px 18px 0 0;
+}
+
+.warga-card-header small {
+    color: #dbeafe;
+}
+
+/* Avatar */
+.avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+/* Gender Badge */
+.badge-gender {
+    font-size: .7rem;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+.badge-pria {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.badge-wanita {
+    background: #fce7f3;
+    color: #be185d;
+}
+
+/* Info */
+.warga-info {
+    padding: 15px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: .85rem;
+    margin-bottom: 8px;
+    color: #334155;
+}
+
+.info-item i {
+    color: #2563eb;
+}
+
+/* Footer */
+.warga-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 12px 15px 15px;
+    background: transparent;
+    border-top: none;
+}
+
+.warga-footer .btn {
+    border-radius: 8px;
+}
