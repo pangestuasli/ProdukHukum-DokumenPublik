@@ -42,11 +42,34 @@ Edit User
                     </div>
                 @endif
 
-                <form action="{{route('user.update', $dataUser->id)}}" method="POST">
+                <form action="{{route('user.update', $dataUser->id)}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="row mb-4">
                         <div class="col-lg-6">
+                            <!-- Profil Picture Preview -->
+                            <div class="mb-3 text-center">
+                                <div class="profile-picture-preview mb-3">
+                                    <img id="profilPicturePreview" src="{{ $dataUser->profil_picture_url }}" 
+                                         alt="Preview Foto Profil" 
+                                         class="rounded-circle border" 
+                                         style="width: 150px; height: 150px; object-fit: cover;">
+                                </div>
+                            </div>
+
+                            <!-- Foto Profil -->
+                            <div class="mb-3">
+                                <label for="profil_picture" class="form-label">Foto Profil</label>
+                                <input type="file" name="profil_picture" id="profil_picture" 
+                                       class="form-control" accept="image/*" onchange="previewImage(event)">
+                                <small class="text-muted">Format: jpeg, png, jpg, gif. Maksimal: 2MB</small>
+                                @if($dataUser->profil_picture)
+                                    <div class="mt-1">
+                                        <small>File saat ini: {{ $dataUser->profil_picture }}</small>
+                                    </div>
+                                @endif
+                            </div>
+
                             <!-- Nama Lengkap -->
                             <div class="mb-3">
                                 <label for="name" class="form-label">Nama Lengkap</label>
@@ -63,6 +86,12 @@ Edit User
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password <small>(Kosongkan jika tidak ingin mengubah)</small></label>
                                 <input name="password" type="password" id="password" class="form-control">
+                            </div>
+
+                            <!-- Konfirmasi Password -->
+                            <div class="mb-3">
+                                <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
+                                <input name="password_confirmation" type="password" id="password_confirmation" class="form-control">
                             </div>
 
                             <!-- Role -->
@@ -87,4 +116,15 @@ Edit User
         </div>
     </div>
 </div>
+
+<script>
+function previewImage(event) {
+    const reader = new FileReader();
+    reader.onload = function(){
+        const output = document.getElementById('profilPicturePreview');
+        output.src = reader.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}
+</script>
 @endsection

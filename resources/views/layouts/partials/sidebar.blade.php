@@ -40,5 +40,8 @@
     <li class="nav-item">
       <a class="nav-link" href="{{ route('riwayat-perubahan.index') }}">Riwayat Perubahan</a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ route('lampiran-dokumen.index') }}">Lampiran Dokumen</a>
+    </li>
   </ul>
 </nav>

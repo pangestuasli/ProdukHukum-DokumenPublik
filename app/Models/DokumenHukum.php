@@ -9,25 +9,9 @@ class DokumenHukum extends Model
 {
     use HasFactory;
 
-    /**
-     * Nama tabel yang terkait dengan model.
-     *
-     * @var string
-     */
     protected $table = 'dokumen_hukum';
-
-    /**
-     * Kunci utama tabel.
-     *
-     * @var string
-     */
     protected $primaryKey = 'dokumen_id';
-
-    /**
-     * Kolom yang dapat diisi massal.
-     *
-     * @var array<int, string>
-     */
+    
     protected $fillable = [
         'jenis_id',
         'kategori_id',
@@ -35,51 +19,58 @@ class DokumenHukum extends Model
         'judul',
         'tanggal',
         'ringkasan',
-        'status',
+        'status'
     ];
 
-    /**
-     * Tipe data untuk kolom tertentu.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'tanggal' => 'date',
     ];
 
-    /**
-     * Relasi ke model JenisDokumen.
-     */
+    // Relasi ke jenis dokumen
     public function jenisDokumen()
     {
         return $this->belongsTo(JenisDokumen::class, 'jenis_id', 'jenis_id');
     }
 
-    /**
-     * Relasi ke model KategoriDokumen.
-     */
+    // Relasi ke kategori dokumen
     public function kategoriDokumen()
     {
         return $this->belongsTo(KategoriDokumen::class, 'kategori_id', 'kategori_id');
     }
 
-    /**
-     * Scope untuk dokumen dengan status tertentu.
-     */
-    public function scopeByStatus($query, $status)
+    // === RELASI KE MEDIA (SIMPLE VERSION) ===
+    
+    // Semua file
+    public function files()
     {
-        return $query->where('status', $status);
+        return $this->hasMany(Media::class, 'ref_id', 'dokumen_id')
+            ->where('ref_table', 'dokumen_hukum')
+            ->orderBy('sort_order');
     }
 
-    /**
-     * Scope untuk pencarian.
-     */
-    public function scopeSearch($query, $search)
+    // File utama (yang pertama)
+    public function fileUtama()
     {
-        return $query->where(function($q) use ($search) {
-            $q->where('nomor', 'like', "%{$search}%")
-              ->orWhere('judul', 'like', "%{$search}%")
-              ->orWhere('ringkasan', 'like', "%{$search}%");
-        });
+        return $this->hasOne(Media::class, 'ref_id', 'dokumen_id')
+            ->where('ref_table', 'dokumen_hukum')
+            ->where('sort_order', 0);
+    }
+
+    // Lampiran
+    public function lampiran()
+    {
+        return $this->hasMany(Media::class, 'ref_id', 'dokumen_id')
+            ->where('ref_table', 'dokumen_hukum')
+            ->where('sort_order', '>', 0);
+    }
+
+    // Helper untuk cek ada file atau tidak
+    public function getAdaFileAttribute()
+    {
+        return $this->files()->exists();
+    }
+    public function lampiranDokumen()
+    {
+        return $this->hasMany(LampiranDokumen::class, 'dokumen_id', 'dokumen_id');
     }
 }

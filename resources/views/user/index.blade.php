@@ -34,6 +34,7 @@
                             <thead class="table-light">
                                 <tr>
                                     <th width="5%">No</th>
+                                    <th>Foto</th>
                                     <th>Nama Lengkap</th>
                                     <th>Email</th>
                                     <th width="10%">Role</th>
@@ -44,6 +45,12 @@
                                 @foreach ($dataUser as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
+                                        <td>
+                                            <img src="{{ $item->profil_picture_url }}" 
+                                                 alt="{{ $item->name }}" 
+                                                 class="rounded-circle border" 
+                                                 style="width: 40px; height: 40px; object-fit: cover;">
+                                        </td>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->email }}</td>
                                         <td>

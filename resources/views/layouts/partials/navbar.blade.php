@@ -1,13 +1,19 @@
 <!-- partial:partials/_navbar.html -->
 <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
   <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
-    <a class="navbar-brand brand-logo me-5" href="index.html"><img src="assets/images/logo.svg" class="me-2" alt="logo" /></a>
-    <a class="navbar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
+    <a class="navbar-brand brand-logo me-5" href="{{ url('/') }}">
+      <img src="{{ asset('assets/skydash/images/logo.svg') }}" class="me-2" alt="logo" />
+    </a>
+    <a class="navbar-brand brand-logo-mini" href="{{ url('/') }}">
+      <img src="{{ asset('assets/skydash/images/logo-mini.svg') }}" alt="logo" />
+    </a>
   </div>
   <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
     <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
       <span class="icon-menu"></span>
     </button>
+    
+    <!-- Search Bar -->
     <ul class="navbar-nav mr-lg-2">
       <li class="nav-item nav-search d-none d-lg-block">
         <div class="input-group">
@@ -20,7 +26,9 @@
         </div>
       </li>
     </ul>
+    
     <ul class="navbar-nav navbar-nav-right">
+      <!-- Notifications Dropdown -->
       <li class="nav-item dropdown">
         <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-bs-toggle="dropdown">
           <i class="icon-bell mx-0"></i>
@@ -64,33 +72,81 @@
         </div>
       </li>
       
-      <!-- Profile Dropdown dengan Nama User -->
+      <!-- Profile Dropdown -->
       <li class="nav-item nav-profile dropdown">
         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">
-          <img src="assets/images/faces/face28.jpg" alt="profile" />
+          @auth
+            @php
+                // Cek apakah user punya foto profil
+                $user = Auth::user();
+                $photoUrl = $user->profil_picture 
+                    ? asset('storage/profil/' . $user->profil_picture)
+                    : asset('skydash/images/faces/face28.jpg');
+            @endphp
+            <img src="{{ $photoUrl }}" 
+                 alt="{{ $user->name }}"
+                 class="rounded-circle"
+                 style="width: 36px; height: 36px; object-fit: cover;" />
+            <span class="ms-2 d-none d-lg-inline">{{ $user->name }}</span>
+          @else
+            <img src="{{ asset('skydash/images/faces/face28.jpg') }}" 
+                 alt="Guest"
+                 class="rounded-circle"
+                 style="width: 36px; height: 36px; object-fit: cover;" />
+          @endauth
         </a>
         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-          <!-- Header dengan Nama & Email User -->
-          <div class="dropdown-header text-center py-3">
-            <img src="assets/images/faces/face28.jpg" class="img-sm rounded-circle mb-2" alt="profile" style="width: 50px; height: 50px; object-fit: cover;" />
-            <p class="mb-1 font-weight-semibold">{{ Auth::user()->name }}</p>
-            <p class="font-weight-light text-muted mb-0" style="font-size: 0.875rem;">{{ Auth::user()->email }}</p>
-          </div>
-          <div class="dropdown-divider"></div>
-          
-          <!-- Menu Items -->
-          <a class="dropdown-item" href="#">
-            <i class="ti-settings text-primary"></i> Settings 
-          </a>
-          <a class="dropdown-item" href="{{ route('logout') }}" 
-             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-            <i class="ti-power-off text-primary"></i> Logout 
-          </a>
-          
-          <!-- Logout Form -->
-          <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-            @csrf
-          </form>
+          @auth
+            @php
+                $user = Auth::user();
+                $photoUrl = $user->profil_picture 
+                    ? asset('storage/profil/' . $user->profil_picture)
+                    : asset('skydash/images/faces/face28.jpg');
+            @endphp
+            
+            <!-- Header dengan Foto & Info User -->
+            <div class="dropdown-header text-center py-3">
+              <img src="{{ $photoUrl }}" 
+                   class="img-sm rounded-circle mb-2" 
+                   alt="{{ $user->name }}" 
+                   style="width: 50px; height: 50px; object-fit: cover;" />
+              <p class="mb-1 font-weight-semibold">{{ $user->name }}</p>
+              <p class="font-weight-light text-muted mb-0" style="font-size: 0.875rem;">
+                {{ $user->email }}
+              </p>
+            </div>
+            <div class="dropdown-divider"></div>
+            
+            <!-- Menu Items -->
+            <a class="dropdown-item" href="{{ url('/') }}">
+              <i class="ti-home text-primary me-2"></i> Dashboard
+            </a>
+            
+            <!-- Jika user admin, tambahkan link ke user management -->
+            @if($user->role == 'admin')
+            <a class="dropdown-item" href="{{ route('user.index') }}">
+              <i class="ti-user text-primary me-2"></i> Manage Users
+            </a>
+            @endif
+            
+            <a class="dropdown-item" href="{{ route('logout') }}" 
+               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+              <i class="ti-power-off text-primary me-2"></i> Logout
+            </a>
+            
+            <!-- Logout Form -->
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+              @csrf
+            </form>
+          @else
+            <!-- Menu untuk Guest -->
+            <a class="dropdown-item" href="{{ route('login') }}">
+              <i class="ti-lock text-primary me-2"></i> Login
+            </a>
+            <a class="dropdown-item" href="{{ route('register') }}">
+              <i class="ti-user text-primary me-2"></i> Register
+            </a>
+          @endauth
         </div>
       </li>
       
@@ -100,6 +156,7 @@
         </a>
       </li>
     </ul>
+    
     <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
       <span class="icon-menu"></span>
     </button>

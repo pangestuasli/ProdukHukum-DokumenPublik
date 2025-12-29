@@ -9,8 +9,18 @@ class Warga extends Model
 {
     use HasFactory;
 
+    /**
+     * The primary key for the model.
+     *
+     * @var string
+     */
     protected $primaryKey = 'warga_id';
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'no_ktp',
         'nama',
@@ -18,13 +28,36 @@ class Warga extends Model
         'agama',
         'pekerjaan',
         'telp',
-        'email',
-        'foto', // optional untuk foto profil tunggal
+        'email'
     ];
 
-    // Relasi ke WargaFile (multiple files)
-    public function files()
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
+    /**
+     * Get the value indicating whether the IDs are incrementing.
+     *
+     * @return bool
+     */
+    public function getIncrementing()
     {
-        return $this->hasMany(WargaFile::class, 'warga_id', 'warga_id');
+        return true;
+    }
+
+    /**
+     * Get the auto-incrementing key type.
+     *
+     * @return string
+     */
+    public function getKeyType()
+    {
+        return 'int';
     }
 }

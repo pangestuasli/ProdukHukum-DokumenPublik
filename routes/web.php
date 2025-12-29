@@ -2,13 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JenisDokumenController;
-use App\Http\Controllers\WargaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KategoriDokumenController;
 use App\Http\Controllers\DokumenHukumController;
 use App\Http\Controllers\RiwayatPerubahanController;   
+use App\Http\Controllers\WargaController;
+use App\Http\Controllers\LampiranDokumenController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,7 +22,9 @@ Route::resource('jenis_dokumen', JenisDokumenController::class)
 Route::resource('kategori-dokumen', KategoriDokumenController::class)->parameters([
     'kategori-dokumen' => 'kategoriDokumen'
 ]);
+Route::resource('warga', WargaController::class);
 Route::resource('dokumen-hukum', DokumenHukumController::class);
+Route::resource('lampiran-dokumen', LampiranDokumenController::class);
 
 // Routes untuk Riwayat Perubahan
 Route::resource('riwayat-perubahan', RiwayatPerubahanController::class)->parameters(
@@ -30,8 +33,7 @@ Route::resource('riwayat-perubahan', RiwayatPerubahanController::class)->paramet
 Route::resource('user', UserController::class);
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
-Route::resource('warga', WargaController::class)
-    ->parameters(['warga' => 'warga']);
+
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Route tanpa login (guest)
@@ -53,4 +55,13 @@ Route::middleware(['isLogin', 'role:admin'])->group(function () {
 // Route khusus user biasa
 Route::middleware(['isLogin', 'role:user'])->group(function () {
     // Route untuk user biasa di sini
+});
+
+// Rute untuk file
+Route::prefix('dokumen-hukum/{dokumen}')->group(function () {
+    Route::get('/file/{file}/download', [DokumenHukumController::class, 'downloadFile'])
+        ->name('dokumen-hukum.file.download');
+        
+    Route::delete('/file/{file}', [DokumenHukumController::class, 'deleteFile'])
+        ->name('dokumen-hukum.file.destroy');
 });

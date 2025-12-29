@@ -1,71 +1,61 @@
 @extends('layouts.app')
 
-@section('title', 'Tambah Dokumen Hukum')
+@section('title', 'Tambah Dokumen')
 
 @section('content')
 <div class="content-wrapper">
     <div class="row">
         <div class="col-md-12 grid-margin">
             <div class="row">
-                <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+                <div class="col-12">
                     <h3 class="font-weight-bold">Tambah Dokumen Hukum</h3>
-                    <h6 class="font-weight-normal mb-0">Isi form di bawah untuk menambahkan dokumen hukum baru</h6>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-md-12 grid-margin stretch-card">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    {{-- FLASH MESSAGE --}}
-                    @if (session('success'))
-                        <div class="alert alert-success">{{ session('success') }}</div>
+                    @if($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                     @endif
 
-                    @if (session('error'))
-                        <div class="alert alert-danger">{{ session('error') }}</div>
-                    @endif
-
-                    <form action="{{ route('dokumen-hukum.store') }}" method="POST">
+                    <form action="{{ route('dokumen-hukum.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="jenis_id">Jenis Dokumen <span class="text-danger">*</span></label>
-                                    <select name="jenis_id" id="jenis_id" 
-                                            class="form-control @error('jenis_id') is-invalid @enderror" required>
-                                        <option value="">Pilih Jenis Dokumen</option>
+                                    <label>Jenis Dokumen <span class="text-danger">*</span></label>
+                                    <select name="jenis_id" class="form-control" required>
+                                        <option value="">Pilih Jenis</option>
                                         @foreach($jenisDokumen as $jenis)
-                                            <option value="{{ $jenis->jenis_id }}" 
-                                                {{ old('jenis_id') == $jenis->jenis_id ? 'selected' : '' }}>
-                                                {{ $jenis->nama_jenis }}
-                                            </option>
+                                        <option value="{{ $jenis->jenis_id }}" {{ old('jenis_id') == $jenis->jenis_id ? 'selected' : '' }}>
+                                            {{ $jenis->nama_jenis }}
+                                        </option>
                                         @endforeach
                                     </select>
-                                    @error('jenis_id')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="kategori_id">Kategori <span class="text-danger">*</span></label>
-                                    <select name="kategori_id" id="kategori_id" 
-                                            class="form-control @error('kategori_id') is-invalid @enderror" required>
+                                    <label>Kategori <span class="text-danger">*</span></label>
+                                    <select name="kategori_id" class="form-control" required>
                                         <option value="">Pilih Kategori</option>
                                         @foreach($kategoriDokumen as $kategori)
-                                            <option value="{{ $kategori->kategori_id }}" 
-                                                {{ old('kategori_id') == $kategori->kategori_id ? 'selected' : '' }}>
-                                                {{ $kategori->nama }}
-                                            </option>
+                                        <option value="{{ $kategori->kategori_id }}" {{ old('kategori_id') == $kategori->kategori_id ? 'selected' : '' }}>
+                                            {{ $kategori->nama }}
+                                        </option>
                                         @endforeach
                                     </select>
-                                    @error('kategori_id')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -73,69 +63,53 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="nomor">Nomor Dokumen <span class="text-danger">*</span></label>
-                                    <input type="text" name="nomor" id="nomor"
-                                           class="form-control @error('nomor') is-invalid @enderror"
-                                           value="{{ old('nomor') }}"
-                                           placeholder="Masukkan nomor dokumen"
-                                           required>
-                                    @error('nomor')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <label>Nomor Dokumen <span class="text-danger">*</span></label>
+                                    <input type="text" name="nomor" class="form-control" value="{{ old('nomor') }}" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="tanggal">Tanggal <span class="text-danger">*</span></label>
-                                    <input type="date" name="tanggal" id="tanggal"
-                                           class="form-control @error('tanggal') is-invalid @enderror"
-                                           value="{{ old('tanggal') }}"
-                                           required>
-                                    @error('tanggal')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <label>Tanggal <span class="text-danger">*</span></label>
+                                    <input type="date" name="tanggal" class="form-control" value="{{ old('tanggal') }}" required>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="judul">Judul Dokumen <span class="text-danger">*</span></label>
-                            <input type="text" name="judul" id="judul"
-                                   class="form-control @error('judul') is-invalid @enderror"
-                                   value="{{ old('judul') }}"
-                                   placeholder="Masukkan judul dokumen"
-                                   required>
-                            @error('judul')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <label>Judul Dokumen <span class="text-danger">*</span></label>
+                            <input type="text" name="judul" class="form-control" value="{{ old('judul') }}" required>
                         </div>
 
                         <div class="form-group">
-                            <label for="ringkasan">Ringkasan</label>
-                            <textarea name="ringkasan" id="ringkasan"
-                                      class="form-control @error('ringkasan') is-invalid @enderror"
-                                      rows="4"
-                                      placeholder="Masukkan ringkasan dokumen (opsional)">{{ old('ringkasan') }}</textarea>
-                            @error('ringkasan')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <label>Ringkasan</label>
+                            <textarea name="ringkasan" class="form-control" rows="3">{{ old('ringkasan') }}</textarea>
+                        </div>
+
+                        {{-- UPLOAD FILE --}}
+                        <div class="form-group">
+                            <label>File Utama <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" name="file_utama" class="custom-file-input" id="fileInput" required>
+                                    <label class="custom-file-label" for="fileInput">Pilih file...</label>
+                                </div>
+                            </div>
+                            <small class="form-text text-muted">
+                                Format: PDF, DOC, DOCX, XLS, XLSX, JPG, JPEG, PNG. Maks: 5MB
+                            </small>
                         </div>
 
                         <div class="form-group">
-                            <label for="status">Status <span class="text-danger">*</span></label>
-                            <select name="status" id="status" 
-                                    class="form-control @error('status') is-invalid @enderror" required>
+                            <label>Status <span class="text-danger">*</span></label>
+                            <select name="status" class="form-control" required>
                                 <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>Draft</option>
                                 <option value="publik" {{ old('status') == 'publik' ? 'selected' : '' }}>Publik</option>
                                 <option value="arsip" {{ old('status') == 'arsip' ? 'selected' : '' }}>Arsip</option>
                             </select>
-                            @error('status')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
                         </div>
-                        
+
                         <div class="mt-4">
-                            <button type="submit" class="btn btn-primary mr-2">
+                            <button type="submit" class="btn btn-primary">
                                 <i class="mdi mdi-content-save"></i> Simpan
                             </button>
                             <a href="{{ route('dokumen-hukum.index') }}" class="btn btn-light">
@@ -149,13 +123,18 @@
     </div>
 </div>
 
+<script>
+// Tampilkan nama file di input
+document.getElementById('fileInput').addEventListener('change', function(e) {
+    var fileName = e.target.files[0].name;
+    var nextSibling = e.target.nextElementSibling;
+    nextSibling.innerText = fileName;
+});
+</script>
+
 <style>
-    .form-control:focus {
-        border-color: #4d94ff;
-        box-shadow: 0 0 0 0.2rem rgba(77, 148, 255, 0.25);
-    }
-    .invalid-feedback {
-        display: block;
+    .custom-file-label::after {
+        content: "Browse";
     }
 </style>
 @endsection

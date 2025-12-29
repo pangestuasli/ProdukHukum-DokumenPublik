@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('warga_files', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('warga_id')->constrained('wargas', 'warga_id')->onDelete('cascade');
-        $table->string('file');
-        $table->timestamps();
-    });
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('profil_picture')->nullable()->after('email');
+        });
     }
 
     /**
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('warga_files');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('profil_picture');
+        });
     }
 };

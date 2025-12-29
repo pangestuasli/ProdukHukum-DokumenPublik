@@ -39,10 +39,28 @@
                     </div>
                 @endif
 
-                <form action="{{route('user.store')}}" method="POST">
+                <form action="{{route('user.store')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row mb-4">
                         <div class="col-lg-6">
+                            <!-- Profil Picture Preview -->
+                            <div class="mb-3 text-center">
+                                <div class="profile-picture-preview mb-3">
+                                    <img id="profilPicturePreview" src="{{ asset('images/default-avatar.png') }}" 
+                                         alt="Preview Foto Profil" 
+                                         class="rounded-circle border" 
+                                         style="width: 150px; height: 150px; object-fit: cover;">
+                                </div>
+                            </div>
+
+                            <!-- Foto Profil -->
+                            <div class="mb-3">
+                                <label for="profil_picture" class="form-label">Foto Profil</label>
+                                <input type="file" name="profil_picture" id="profil_picture" 
+                                       class="form-control" accept="image/*" onchange="previewImage(event)">
+                                <small class="text-muted">Format: jpeg, png, jpg, gif. Maksimal: 2MB</small>
+                            </div>
+
                             <!-- Nama Lengkap -->
                             <div class="mb-3">
                                 <label for="name" class="form-label">Nama Lengkap</label>
@@ -90,4 +108,14 @@
     </div>
 </div>
 
+<script>
+function previewImage(event) {
+    const reader = new FileReader();
+    reader.onload = function(){
+        const output = document.getElementById('profilPicturePreview');
+        output.src = reader.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}
+</script>
 @endsection
