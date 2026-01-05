@@ -88,3 +88,326 @@
 .warga-footer .btn {
     border-radius: 8px;
 }
+
+/* =============================== 
+   KATEGORI DOKUMEN CARD STYLE
+================================ */
+
+.kategori-card {
+    border-radius: 18px;
+    border: none;
+    background: linear-gradient(180deg, #f0fdf4, #ffffff);
+    transition: all .35s ease;
+    box-shadow: 0 10px 25px rgba(34, 197, 94, .12);
+}
+
+.kategori-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 60px rgba(34, 197, 94, .35);
+}
+
+/* Header */
+.kategori-card-header {
+    background: linear-gradient(135deg, #16a34a, #15803d);
+    color: #fff;
+    padding: 15px;
+    border-radius: 18px 18px 0 0;
+}
+
+.kategori-card-header small {
+    color: #dcfce7;
+}
+
+/* Info */
+.kategori-info {
+    padding: 15px;
+}
+
+.kategori-info .info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: .85rem;
+    margin-bottom: 8px;
+    color: #334155;
+}
+
+.kategori-info .info-item i {
+    color: #16a34a;
+}
+
+/* Footer */
+.kategori-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 12px 15px 15px;
+    background: transparent;
+    border-top: none;
+}
+
+.kategori-footer .btn {
+    border-radius: 8px;
+}
+
+/* =============================== 
+   JENIS DOKUMEN CARD STYLE
+================================ */
+
+.jenis-card {
+    border-radius: 18px;
+    border: none;
+    background: linear-gradient(180deg, #fef3c7, #ffffff);
+    transition: all .35s ease;
+    box-shadow: 0 10px 25px rgba(245, 158, 11, .12);
+}
+
+.jenis-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 60px rgba(245, 158, 11, .35);
+}
+
+/* Header */
+.jenis-card-header {
+    background: linear-gradient(135deg, #d97706, #b45309);
+    color: #fff;
+    padding: 15px;
+    border-radius: 18px 18px 0 0;
+}
+
+.jenis-card-header small {
+    color: #fef3c7;
+}
+
+/* Info */
+.jenis-info {
+    padding: 15px;
+}
+
+.jenis-info .info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: .85rem;
+    margin-bottom: 8px;
+    color: #334155;
+}
+
+.jenis-info .info-item i {
+    color: #d97706;
+}
+
+/* Footer */
+.jenis-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 12px 15px 15px;
+    background: transparent;
+    border-top: none;
+}
+
+.jenis-footer .btn {
+    border-radius: 8px;
+}
+
+/* =============================== 
+   DOKUMEN HUKUM CARD STYLE
+================================ */
+
+.dokumen-card {
+    border-radius: 18px;
+    border: none;
+    background: linear-gradient(180deg, #f3e8ff, #ffffff);
+    transition: all .35s ease;
+    box-shadow: 0 10px 25px rgba(147, 51, 234, .12);
+}
+
+.dokumen-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 60px rgba(147, 51, 234, .35);
+}
+
+/* Header */
+.dokumen-card-header {
+    background: linear-gradient(135deg, #7c3aed, #6d28d9);
+    color: #fff;
+    padding: 15px;
+    border-radius: 18px 18px 0 0;
+}
+
+.dokumen-card-header small {
+    color: #e9d5ff;
+}
+
+/* Status Badge */
+.badge-status {
+    font-size: .7rem;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+.badge-aktif {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.badge-nonaktif {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* Info */
+.dokumen-info {
+    padding: 15px;
+}
+
+.dokumen-info .info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: .85rem;
+    margin-bottom: 8px;
+    color: #334155;
+}
+
+.dokumen-info .info-item i {
+    color: #7c3aed;
+}
+
+/* Footer */
+.dokumen-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 12px 15px 15px;
+    background: transparent;
+    border-top: none;
+}
+
+.dokumen-footer .btn {
+    border-radius: 8px;
+}
+
+/* =============================== 
+   LAMPIRAN DOKUMEN CARD STYLE
+================================ */
+
+.lampiran-card {
+    border-radius: 18px;
+    border: none;
+    background: linear-gradient(180deg, #fdf4ff, #ffffff);
+    transition: all .35s ease;
+    box-shadow: 0 10px 25px rgba(168, 85, 247, .12);
+}
+
+.lampiran-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 60px rgba(168, 85, 247, .35);
+}
+
+/* Header */
+.lampiran-card-header {
+    background: linear-gradient(135deg, #a855f7, #9333ea);
+    color: #fff;
+    padding: 15px;
+    border-radius: 18px 18px 0 0;
+}
+
+.lampiran-card-header small {
+    color: #f3e8ff;
+}
+
+/* Info */
+.lampiran-info {
+    padding: 15px;
+}
+
+.lampiran-info .info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: .85rem;
+    margin-bottom: 8px;
+    color: #334155;
+}
+
+.lampiran-info .info-item i {
+    color: #a855f7;
+}
+
+/* Footer */
+.lampiran-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 12px 15px 15px;
+    background: transparent;
+    border-top: none;
+}
+
+.lampiran-footer .btn {
+    border-radius: 8px;
+}
+
+/* ===============================
+   RIWAYAT PERUBAHAN CARD STYLE
+================================ */
+
+.riwayat-card {
+    border-radius: 18px;
+    border: none;
+    background: linear-gradient(180deg, #f0fdf4, #ffffff);
+    transition: all .35s ease;
+    box-shadow: 0 10px 25px rgba(34, 197, 94, .12);
+}
+
+.riwayat-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 60px rgba(34, 197, 94, .35);
+}
+
+/* Header */
+.riwayat-card-header {
+    background: linear-gradient(135deg, #16a34a, #15803d);
+    color: #fff;
+    padding: 15px;
+    border-radius: 18px 18px 0 0;
+}
+
+.riwayat-card-header small {
+    color: #dcfce7;
+}
+
+/* Info */
+.riwayat-info {
+    padding: 15px;
+}
+
+.riwayat-info .info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: .85rem;
+    margin-bottom: 8px;
+    color: #334155;
+}
+
+.riwayat-info .info-item i {
+    color: #16a34a;
+}
+
+/* Footer */
+.riwayat-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 12px 15px 15px;
+    background: transparent;
+    border-top: none;
+}
+
+.riwayat-footer .btn {
+    border-radius: 8px;
+}

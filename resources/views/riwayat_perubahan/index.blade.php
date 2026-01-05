@@ -1,66 +1,85 @@
 @extends('layouts.admin.app')
 
-
 @section('title', 'Riwayat Perubahan Dokumen')
 
-
 @section('content')
-    <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h4>Riwayat Perubahan Dokumen</h4>
-            <a href="{{ route('riwayat.create', $dokumen->dokumen_id) }}" class="btn btn-primary">
-                Tambah Riwayat
-            </a>
-        </div>
+<div class="container-fluid">
 
-
-        <div class="card-body">
-            <div class="mb-3">
-                <strong>Dokumen:</strong> {{ $dokumen->judul }} <br>
-                <strong>Nomor:</strong> {{ $dokumen->nomor }}
+    {{-- Header --}}
+    <div class="row mb-4">
+        <div class="col-12 d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="mb-0 fw-bold text-primary">Riwayat Perubahan Dokumen</h4>
+                <small class="text-muted">Daftar riwayat perubahan dokumen hukum</small>
             </div>
 
 
-            <table class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Tanggal</th>
-                        <th>Versi</th>
-                        <th>Uraian Perubahan</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($riwayat as $r)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $r->tanggal }}</td>
-                            <td>{{ $r->versi }}</td>
-                            <td>{{ $r->uraian_perubahan }}</td>
-                            <td>
-                                <a href="{{ route('riwayat.edit', $r->riwayat_id) }}" class="btn btn-warning btn-sm">Edit</a>
-
-
-                                <form action="{{ route('riwayat.destroy', $r->riwayat_id) }}" method="POST"
-                                    style="display:inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Hapus riwayat ini?')">Hapus</button>
-                                </form>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="text-center">Belum ada riwayat perubahan</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-
-
-            <a href="{{ route('dokumen-hukum.index') }}" class="btn btn-secondary mt-3">Kembali ke Dokumen</a>
         </div>
     </div>
+
+    {{-- Card List --}}
+    <div class="row">
+        @forelse($riwayat as $r)
+            <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+                <div class="card riwayat-card h-100">
+
+                    {{-- Card Header --}}
+                    <div class="riwayat-card-header d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <div>
+                                <h6 class="mb-0 fw-semibold">{{ $r->dokumenHukum->judul ?? 'Dokumen Tidak Ditemukan' }}</h6>
+                                <small>Nomor: {{ $r->dokumenHukum->nomor ?? '-' }}</small>
+                            </div>
+                        </div>
+
+                        <span class="badge badge-gender badge-pria">
+                            Versi {{ $r->versi }}
+                        </span>
+                    </div>
+
+                    {{-- Card Body --}}
+                    <div class="card-body riwayat-info">
+                        <div class="info-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>{{ $r->tanggal?->format('d-m-Y') }}</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Uraian Perubahan</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-comment"></i>
+                            <span class="text-truncate">{{ $r->uraian_perubahan }}</span>
+                        </div>
+                    </div>
+
+                    {{-- Card Footer --}}
+                    <div class="card-footer riwayat-footer">
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        @empty
+            <div class="col-12">
+                <div class="alert alert-secondary text-center py-5">
+                    <i class="fas fa-history fa-2x mb-2"></i>
+                    <p class="mb-0">Belum ada riwayat perubahan</p>
+                </div>
+            </div>
+        @endforelse
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <a href="{{ route('dokumen-hukum.index') }}"
+               class="btn btn-secondary">
+               Kembali ke Dokumen
+            </a>
+        </div>
+    </div>
+
+</div>
 @endsection

@@ -8,9 +8,10 @@ use App\Http\Controllers\JenisDokumenController;
 use App\Http\Controllers\KategoriDokumenController;
 use App\Http\Controllers\DokumenHukumController;    
 use App\Http\Controllers\RiwayatPerubahanController;
+use App\Http\Controllers\LampiranDokumenController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard');
 });
 
 route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -19,11 +20,12 @@ Route::resource('warga', WargaController::class);
 Route::resource('jenis_dokumen', JenisDokumenController::class);
 Route::resource('kategori-dokumen', KategoriDokumenController::class);
 Route::resource('dokumen-hukum', DokumenHukumController::class);
-Route::get(
-    'dokumen-hukum/{dokumen_id}/riwayat',
-    [RiwayatPerubahanController::class, 'index']
-)->name('riwayat-perubahan.index');
 
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
+Route::resource('lampiran-dokumen', LampiranDokumenController::class);
+
+
+Route::get('/riwayat-perubahan', [RiwayatPerubahanController::class, 'index'])
+    ->name('riwayat-perubahan.index');
+
+
+

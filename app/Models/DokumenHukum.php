@@ -35,4 +35,9 @@ class DokumenHukum extends Model
     {
         return $this->belongsTo(KategoriDokumen::class, 'kategori_id', 'kategori_id');
     }
+
+    public function lampiran()
+    {
+        return $this->hasMany(LampiranDokumen::class, 'dokumen_id', 'dokumen_id');
+    }
 }

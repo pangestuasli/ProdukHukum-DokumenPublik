@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>@yield('title', 'Flat - Bootstrap 5 Template')</title>
+  <title>@yield('title', 'Dashboard')</title>
   <meta name="description" content="@yield('description', '')" />
 
   <!-- ========================= CSS here ========================= -->
@@ -52,20 +52,19 @@
         <div class="row align-items-end">
           <div class="col-lg-6">
             <div class="hero-content-wrapper">
-              <h4 class="wow fadeInUp" data-wow-delay=".2s">You're Using</h4>
-              <h2 class="mb-30 wow fadeInUp" data-wow-delay=".4s">Free Lite Version of Template</h2>
-              <p class="mb-50 wow fadeInUp" data-wow-delay=".6s">Please, purchase full version of the template to get
-                all sections, features and permission to remove footer credit</p>
-              <div class="buttons">
-                <a href="https://rebrand.ly/flat-ud/" rel="nofollow" target="blank"
-                  class="button button-lg radius-10 wow fadeInUp" data-wow-delay=".7s">Purchase Now</a>
-              </div>
+
+              <h2 class="mb-30 wow fadeInUp" data-wow-delay=".4s">About</h2>
+              <p class="mb-50 wow fadeInUp" data-wow-delay=".6s">
+                Produk Hukum adalah kumpulan peraturan dan keputusan resmi yang diterbitkan oleh pemerintah sebagai
+                dasar hukum dalam pelaksanaan tugas, pelayanan publik, dan penyelenggaraan pemerintahan.</p>
+
+
             </div>
           </div>
           <div class="col-lg-6">
             <div class="hero-image">
-              <img src="assets/img/hero/hero-2/hero-img.svg" alt="" class="wow fadeInRight" data-wow-delay=".2s">
-              <img src="assets/img/hero/hero-2/paattern.svg" alt="" class="shape shape-1">
+              <img src="assets/img/hero/hero-2/image.png" alt="" class="wow fadeInRight" data-wow-delay=".2s">
+
             </div>
           </div>
         </div>
@@ -88,36 +87,55 @@
             </div>
 
             <div class="row">
+             <div class="col-md-6">
+  <div class="single-feature d-flex flex-column align-items-center text-center">
+
+    <div class="icon mb-3">
+      <img src="{{ asset('assets/img/logos/Warga.png') }}" alt="" height="80">
+    </div>
+
+    <h5 class="mb-2">Data Warga</h5>
+
+    <p class="text-muted mb-3">
+      Kelola data warga secara terpusat
+    </p>
+
+    <a href="{{ route('warga.index') }}" class="button radius-10">
+      Klik Disini
+    </a>
+
+  </div>
+</div>
+
+
               <div class="col-md-6">
-                <div class="single-feature wow fadeInUp" data-wow-delay=".2s">
-                  <div class="icon">
-                    <i class="lni lni-vector"></i>
-                  </div>
-                  <div class="content">
-                    <h5 class="mb-25">Graphics Design</h5>
-                    <p>Short description for the ones who look for something new.</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="single-feature wow fadeInUp" data-wow-delay=".4s">
-                  <div class="icon">
-                    <i class="lni lni-layers"></i>
-                  </div>
-                  <div class="content">
-                    <h5 class="mb-25">UI/UX Design</h5>
-                    <p>Short description for the ones who look for something new.</p>
-                  </div>
-                </div>
-              </div>
+               <div class="single-feature d-flex flex-column align-items-center text-center">
+
+    <div class="icon mb-3">
+      <img src="{{ asset('assets/img/logos/Folder.png') }}" alt="" height="80">
+    </div>
+
+    <h5 class="mb-2">Jenis Dokumen</h5>
+
+    <p class="text-muted mb-3">
+      Kelola data warga secara terpusat
+    </p>
+
+    <a href="{{ route('warga.index') }}" class="button radius-10">
+      Klik Disini
+    </a>
+
+  </div>
+</div>
               <div class="col-md-6">
                 <div class="single-feature wow fadeInUp" data-wow-delay=".6s">
                   <div class="icon">
                     <i class="lni lni-layout"></i>
                   </div>
                   <div class="content">
-                    <h5 class="mb-25">Web Design</h5>
+                    <h5 class="mb-25">Kategori Dokumen</h5>
                     <p>Short description for the ones who look for something new.</p>
+                    <a href='kategori-dokumen' class="button radius-10">Klik Disini</a>
                   </div>
                 </div>
               </div>
@@ -127,8 +145,9 @@
                     <i class="lni lni-display"></i>
                   </div>
                   <div class="content">
-                    <h5 class="mb-25">Web Development</h5>
+                    <h5 class="mb-25">Dokumen Hukum</h5>
                     <p>Short description for the ones who look for something new.</p>
+                    <a href='dokumen-hukum' class="button radius-10">Klik Disini</a>
                   </div>
                 </div>
               </div>
@@ -182,14 +201,15 @@
     </section>
     <!-- ========================= about style-3 end ========================= -->
 
-    		<!-- ========================= pricing style-1 start ========================= -->
-		<section id="pricing" class="pricing-section pricing-style-1 bg-white">
+    <!-- ========================= pricing style-1 start ========================= -->
+    <section id="pricing" class="pricing-section pricing-style-1 bg-white">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-xxl-5 col-xl-5 col-lg-7 col-md-10">
             <div class="section-title text-center mb-60">
               <h3 class="mb-15 wow fadeInUp" data-wow-delay=".2s">Pricing Plan</h3>
-              <p class="wow fadeInUp" data-wow-delay=".4s">Stop wasting time and money designing and managing a website that doesn’t get results. Happiness guaranteed!</p>
+              <p class="wow fadeInUp" data-wow-delay=".4s">Stop wasting time and money designing and managing a website
+                that doesn’t get results. Happiness guaranteed!</p>
             </div>
           </div>
         </div>
