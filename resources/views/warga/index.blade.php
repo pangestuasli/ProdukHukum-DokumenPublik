@@ -14,6 +14,57 @@
                         Tambah Warga
                     </a>
                 </div>
+
+                {{-- Filter Section --}}
+                <div class="row mb-3">
+                    <div class="col-md-8">
+                        {{-- Search Form --}}
+                        <form method="GET" action="{{ route('warga.index') }}" class="d-flex gap-2">
+                            <input type="hidden" name="jenis_kelamin" value="{{ request('jenis_kelamin') }}">
+                            <input type="text" name="search" class="form-control" placeholder="Cari nama atau NIK..." value="{{ request('search') }}">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search"></i> Cari
+                            </button>
+                            @if(request('search'))
+                                <a href="{{ route('warga.index', ['jenis_kelamin' => request('jenis_kelamin')]) }}" class="btn btn-outline-secondary">
+                                    <i class="fas fa-times"></i>
+                                </a>
+                            @endif
+                        </form>
+                    </div>
+                    <div class="col-md-4">
+                        {{-- Filter Form --}}
+                        <form method="GET" action="{{ route('warga.index') }}" class="d-flex gap-2">
+                            <input type="hidden" name="search" value="{{ request('search') }}">
+                            <select name="jenis_kelamin" class="form-select" onchange="this.form.submit()">
+                                <option value="">Semua Jenis Kelamin</option>
+                                <option value="L" {{ request('jenis_kelamin') == 'L' ? 'selected' : '' }}>Laki-laki</option>
+                                <option value="P" {{ request('jenis_kelamin') == 'P' ? 'selected' : '' }}>Perempuan</option>
+                            </select>
+                            @if(request('jenis_kelamin'))
+                                <a href="{{ route('warga.index', ['search' => request('search')]) }}" class="btn btn-outline-secondary">
+                                    <i class="fas fa-times"></i>
+                                </a>
+                            @endif
+                        </form>
+                    </div>
+                </div>
+
+                {{-- Active Filters Info --}}
+                @if(request('search') || request('jenis_kelamin'))
+                <div class="alert alert-info mb-3">
+                    <strong>Filter Aktif:</strong>
+                    @if(request('search'))
+                        <span class="badge bg-primary">Pencarian: {{ request('search') }}</span>
+                    @endif
+                    @if(request('jenis_kelamin'))
+                        <span class="badge bg-primary">
+                            {{ request('jenis_kelamin') == 'L' ? 'Laki-laki' : 'Perempuan' }}
+                        </span>
+                    @endif
+                    <a href="{{ route('warga.index') }}" class="btn btn-sm btn-outline-dark ms-2">Reset Semua</a>
+                </div>
+                @endif
                 
                 <div class="table-responsive">
                     <table class="table table-hover">
@@ -64,10 +115,14 @@
                             @endforelse
                         </tbody>
                     </table>
-                </div>
-                
-                <div class="mt-4">
-                    {{ $wargas->links() }}
+                </div>                
+                <div class="mt-4 d-flex justify-content-between align-items-center">
+                    <div>
+                        Menampilkan {{ $wargas->firstItem() ?? 0 }} - {{ $wargas->lastItem() ?? 0 }} dari {{ $wargas->total() }} data
+                    </div>
+                    <div>
+                        {{ $wargas->links('pagination::bootstrap-5') }}
+                    </div>
                 </div>
             </div>
         </div>

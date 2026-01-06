@@ -28,6 +28,75 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                         </div>
                     @endif
+
+                    {{-- Filter & Search Section --}}
+                    <div class="row mb-3">
+                        <div class="col-md-8">
+                            {{-- Search Form --}}
+                            <form method="GET" action="{{ route('user.index') }}" class="d-flex gap-2">
+                                <input type="hidden" name="role" value="{{ request('role') }}">
+                                <input type="text" name="search" class="form-control form-control-sm" 
+                                       placeholder="Cari nama atau email..." 
+                                       value="{{ request('search') }}">
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    <i class="mdi mdi-magnify"></i> Cari
+                                </button>
+                                @if(request('search'))
+                                    <a href="{{ route('user.index', ['role' => request('role')]) }}" 
+                                       class="btn btn-outline-secondary btn-sm">
+                                        <i class="mdi mdi-close"></i>
+                                    </a>
+                                @endif
+                            </form>
+                        </div>
+                        <div class="col-md-4">
+                            {{-- Filter Role --}}
+                            <form method="GET" action="{{ route('user.index') }}" class="d-flex gap-2">
+                                <input type="hidden" name="search" value="{{ request('search') }}">
+                                <select name="role" class="form-select form-select-sm" onchange="this.form.submit()">
+                                    <option value="">Semua Role</option>
+                                    <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                                    <option value="user" {{ request('role') == 'user' ? 'selected' : '' }}>User</option>
+                                </select>
+                                @if(request('role'))
+                                    <a href="{{ route('user.index', ['search' => request('search')]) }}" 
+                                       class="btn btn-outline-secondary btn-sm">
+                                        <i class="mdi mdi-close"></i>
+                                    </a>
+                                @endif
+                            </form>
+                        </div>
+                    </div>
+
+                    {{-- Active Filters Info --}}
+                    @if(request('search') || request('role'))
+                    <div class="alert alert-light py-2 mb-3">
+                        <div class="d-flex align-items-center">
+                            <span class="me-2">
+                                <i class="mdi mdi-filter text-primary"></i>
+                                <strong>Filter aktif:</strong>
+                            </span>
+                            <div class="d-flex flex-wrap gap-2">
+                                @if(request('search'))
+                                    <span class="badge bg-info">
+                                        <i class="mdi mdi-magnify me-1"></i>
+                                        "{{ request('search') }}"
+                                    </span>
+                                @endif
+                                @if(request('role'))
+                                    <span class="badge bg-info">
+                                        <i class="mdi mdi-account me-1"></i>
+                                        {{ ucfirst(request('role')) }}
+                                    </span>
+                                @endif
+                                <a href="{{ route('user.index') }}" class="badge bg-danger text-decoration-none">
+                                    <i class="mdi mdi-close-circle me-1"></i>
+                                    Reset Semua
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
                     
                     <div class="table-responsive">
                         <table id="table-user" class="table table-hover table-sm">
@@ -42,9 +111,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($dataUser as $item)
+                                @forelse ($dataUser as $item)
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $loop->iteration + (($dataUser->currentPage() - 1) * $dataUser->perPage()) }}</td>
                                         <td>
                                             <img src="{{ $item->profil_picture_url }}" 
                                                  alt="{{ $item->name }}" 
@@ -82,13 +151,58 @@
                                             </div>
                                         </td>
                                     </tr>
-                                @endforeach
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center py-4">
+                                            <div class="text-muted">
+                                                <i class="mdi mdi-account-alert-outline mdi-48px"></i>
+                                                <h5 class="mt-3">Tidak ada data user</h5>
+                                                @if(request()->hasAny(['search', 'role']))
+                                                    <p class="mb-3">Tidak ada hasil untuk filter yang dipilih</p>
+                                                    <a href="{{ route('user.index') }}" class="btn btn-primary btn-sm">
+                                                        <i class="mdi mdi-refresh"></i> Reset Filter
+                                                    </a>
+                                                @else
+                                                    <p>Mulai dengan menambahkan user baru</p>
+                                                    <a href="{{ route('user.create') }}" class="btn btn-success btn-sm">
+                                                        <i class="mdi mdi-plus-circle"></i> Tambah User Pertama
+                                                    </a>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
+                    </div>
+
+                    {{-- Pagination --}}
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <div class="text-muted small">
+                            Menampilkan {{ $dataUser->firstItem() ?? 0 }} - {{ $dataUser->lastItem() ?? 0 }} 
+                            dari {{ $dataUser->total() }} user
+                        </div>
+                        <div>
+                            {{ $dataUser->links('pagination::bootstrap-5') }}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .alert-light {
+        background-color: #f8f9fa;
+        border-color: #e9ecef;
+    }
+    .badge a {
+        text-decoration: none;
+    }
+    .badge a:hover {
+        opacity: 0.8;
+    }
+</style>
+
 @endsection

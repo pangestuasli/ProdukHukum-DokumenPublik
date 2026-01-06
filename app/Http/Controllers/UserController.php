@@ -12,9 +12,27 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data['dataUser'] = User::all();
+        $query = User::query();
+
+        // Filter berdasarkan role
+        if ($request->has('role') && $request->role != '') {
+            $query->where('role', $request->role);
+        }
+
+        // Search berdasarkan nama atau email
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                  ->orWhere('email', 'like', '%' . $search . '%');
+            });
+        }
+
+        // Pagination dengan appends untuk mempertahankan filter
+        $data['dataUser'] = $query->paginate(5)->appends($request->except('page'));
+        
         return view('user.index', $data);
     }
 

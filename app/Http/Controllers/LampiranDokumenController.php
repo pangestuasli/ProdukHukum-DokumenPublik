@@ -13,15 +13,43 @@ class LampiranDokumenController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $lampiran = LampiranDokumen::with('dokumenHukum') // Ubah ini
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
-
-        $dokumenList = DokumenHukum::all(); // Ubah ini
-
+        // Query dasar dengan relasi
+        $query = LampiranDokumen::with('dokumenHukum');
+        
+        // Filter pencarian
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('berkas_lampiran', 'like', "%{$search}%")
+                  ->orWhere('keterangan', 'like', "%{$search}%")
+                  ->orWhereHas('dokumenHukum', function ($q2) use ($search) {
+                      $q2->where('judul', 'like', "%{$search}%")
+                         ->orWhere('nomor', 'like', "%{$search}%");
+                  });
+            });
+        }
+        
+        // Filter by document
+        if ($request->has('dokumen_id') && $request->dokumen_id != '') {
+            $query->where('dokumen_id', $request->dokumen_id);
+        }
+        
+        // Sorting default
+        $query->orderBy('created_at', 'desc');
+        
+        // Pagination
+        $perPage = $request->get('per_page', 10);
+        $lampiran = $query->paginate($perPage);
+        
+        // Simpan query string untuk pagination
+        $lampiran->appends($request->except('page'));
+        
+        $dokumenList = DokumenHukum::all();
+        
         return view('lampirandokumen.index', compact('lampiran', 'dokumenList'));
+    
     }
 
     /**

@@ -1,11 +1,11 @@
 <!-- partial:partials/_navbar.html -->
 <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
   <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
-    <a class="navbar-brand brand-logo me-5" href="{{ url('/') }}">
-      <img src="{{ asset('assets/skydash/images/logo.svg') }}" class="me-2" alt="logo" />
-    </a>
-    <a class="navbar-brand brand-logo-mini" href="{{ url('/') }}">
-      <img src="{{ asset('assets/skydash/images/logo-mini.svg') }}" alt="logo" />
+    <!-- LOGO UTAMA -->
+    <a class="navbar-brand brand-logo me-5" href="{{ route('dashboard') }}">
+      <img src="{{ asset('assets/images/logo/logo.png') }}" 
+           alt="{{ config('app.name', 'Laravel') }}"
+           style="height: 40px; width: auto;" />
     </a>
   </div>
   <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
@@ -142,9 +142,6 @@
             <!-- Menu untuk Guest -->
             <a class="dropdown-item" href="{{ route('login') }}">
               <i class="ti-lock text-primary me-2"></i> Login
-            </a>
-            <a class="dropdown-item" href="{{ route('register') }}">
-              <i class="ti-user text-primary me-2"></i> Register
             </a>
           @endauth
         </div>

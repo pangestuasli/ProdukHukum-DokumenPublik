@@ -12,56 +12,46 @@ use App\Http\Controllers\WargaController;
 use App\Http\Controllers\LampiranDokumenController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('');
 });
-Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->name('dashboard');
-
-Route::resource('jenis_dokumen', JenisDokumenController::class)
-     ->parameters(['jenis_dokumen' => 'jenis_dokumen']);
-Route::resource('kategori-dokumen', KategoriDokumenController::class)->parameters([
-    'kategori-dokumen' => 'kategoriDokumen'
-]);
-Route::resource('warga', WargaController::class);
-Route::resource('dokumen-hukum', DokumenHukumController::class);
-Route::resource('lampiran-dokumen', LampiranDokumenController::class);
-
-// Routes untuk Riwayat Perubahan
-Route::resource('riwayat-perubahan', RiwayatPerubahanController::class)->parameters(
-    ['riwayat-perubahan' => 'riwayatPerubahan']);
-    
-Route::resource('user', UserController::class);
-Route::get('/login', [AuthController::class, 'index'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
-
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Route tanpa login (guest)
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
-// Route yang butuh login (pakai CheckIsLogin)
+// Route yang butuh login
 Route::middleware(['isLogin'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // Dashboard
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/api/dashboard/stats', [DashboardController::class, 'getDashboardStats'])->name('dashboard.stats');
+    
+    // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    
+    // Resource Routes yang umum
+    Route::resource('jenis_dokumen', JenisDokumenController::class)
+         ->parameters(['jenis_dokumen' => 'jenis_dokumen']);
+    Route::resource('kategori-dokumen', KategoriDokumenController::class)->parameters([
+        'kategori-dokumen' => 'kategoriDokumen'
+    ]);
+    Route::resource('warga', WargaController::class);
+    Route::resource('dokumen-hukum', DokumenHukumController::class);
+    Route::resource('lampiran-dokumen', LampiranDokumenController::class);
+    Route::resource('riwayat-perubahan', RiwayatPerubahanController::class)->parameters(
+        ['riwayat-perubahan' => 'riwayatPerubahan']);
+    
+    // Rute untuk file
+    Route::prefix('dokumen-hukum/{dokumen}')->group(function () {
+        Route::get('/file/{file}/download', [DokumenHukumController::class, 'downloadFile'])
+            ->name('dokumen-hukum.file.download');
+            
+        Route::delete('/file/{file}', [DokumenHukumController::class, 'deleteFile'])
+            ->name('dokumen-hukum.file.destroy');
+    });
 });
 
 // Route khusus admin (pakai CheckRole)
 Route::middleware(['isLogin', 'role:admin'])->group(function () {
     Route::resource('user', UserController::class);
     // route admin lainnya
-});
-
-// Route khusus user biasa
-Route::middleware(['isLogin', 'role:user'])->group(function () {
-    // Route untuk user biasa di sini
-});
-
-// Rute untuk file
-Route::prefix('dokumen-hukum/{dokumen}')->group(function () {
-    Route::get('/file/{file}/download', [DokumenHukumController::class, 'downloadFile'])
-        ->name('dokumen-hukum.file.download');
-        
-    Route::delete('/file/{file}', [DokumenHukumController::class, 'deleteFile'])
-        ->name('dokumen-hukum.file.destroy');
 });

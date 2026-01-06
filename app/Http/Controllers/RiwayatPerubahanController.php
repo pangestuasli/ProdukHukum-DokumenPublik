@@ -14,17 +14,37 @@ class RiwayatPerubahanController extends Controller
      */
     public function index(Request $request)
     {
-        $query = RiwayatPerubahan::with('dokumenHukum')
-            ->orderBy('tanggal', 'desc')
-            ->orderBy('created_at', 'desc');
+        // Query dasar dengan relasi
+        $query = RiwayatPerubahan::with('dokumenHukum');
 
-        // Filter by document if provided
-        if ($request->has('dokumen_id')) {
+        // Filter pencarian
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('uraian_perubahan', 'like', "%{$search}%")
+                    ->orWhere('versi', 'like', "%{$search}%")
+                    ->orWhereHas('dokumenHukum', function ($q2) use ($search) {
+                        $q2->where('judul', 'like', "%{$search}%")
+                            ->orWhere('nomor', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        // Filter by document
+        if ($request->has('dokumen_id') && $request->dokumen_id != '') {
             $query->where('dokumen_id', $request->dokumen_id);
         }
 
-        $riwayatPerubahan = $query->paginate(10);
-        
+        // Sorting default
+        $query->orderBy('tanggal', 'desc');
+
+        // Pagination
+        $perPage = $request->get('per_page', 10);
+        $riwayatPerubahan = $query->paginate($perPage);
+
+        // Simpan query string untuk pagination
+        $riwayatPerubahan->appends($request->except('page'));
+
         // Get documents for filter dropdown
         $dokumenList = DokumenHukum::orderBy('judul')->get();
 
@@ -77,7 +97,7 @@ class RiwayatPerubahanController extends Controller
     public function show($id)
     {
         $riwayatPerubahan = RiwayatPerubahan::with('dokumenHukum')->findOrFail($id);
-        
+
         return view('riwayatperubahan.show', compact('riwayatPerubahan'));
     }
 
@@ -127,5 +147,5 @@ class RiwayatPerubahanController extends Controller
 
         return redirect()->route('riwayat-perubahan.index')
             ->with('success', 'Riwayat perubahan berhasil dihapus.');
-    }    
+    }
 }

@@ -52,55 +52,11 @@
                             </form>
                         </div>
                     </div>
-
-                    {{-- FILTER OPTIONS --}}
-                    <form method="GET" action="{{ route('jenis_dokumen.index') }}" class="mb-4">
-                        <div class="row g-3 align-items-end">
-                            <div class="col-md-4">
-                                <label for="sort" class="form-label">Urutkan Berdasarkan</label>
-                                <select name="sort" id="sort" class="form-select">
-                                    <option value="">-- Pilih --</option>
-                                    <option value="nama_jenis" {{ request('sort') == 'nama_jenis' ? 'selected' : '' }}>Nama Jenis</option>
-                                    <option value="created_at" {{ request('sort') == 'created_at' ? 'selected' : '' }}>Tanggal Dibuat</option>
-                                </select>
-                            </div>
-                            
-                            <div class="col-md-3">
-                                <label for="order" class="form-label">Urutan</label>
-                                <select name="order" id="order" class="form-select">
-                                    <option value="asc" {{ request('order') == 'asc' ? 'selected' : '' }}>A-Z / Terlama</option>
-                                    <option value="desc" {{ request('order') == 'desc' ? 'selected' : '' }}>Z-A / Terbaru</option>
-                                </select>
-                            </div>
-                            
-                            <div class="col-md-3">
-                                <label for="per_page" class="form-label">Item per Halaman</label>
-                                <select name="per_page" id="per_page" class="form-select" onchange="this.form.submit()">
-                                    <option value="10" {{ ($data->perPage() == 10 || !request('per_page')) ? 'selected' : '' }}>10</option>
-                                    <option value="25" {{ $data->perPage() == 25 ? 'selected' : '' }}>25</option>
-                                    <option value="50" {{ $data->perPage() == 50 ? 'selected' : '' }}>50</option>
-                                    <option value="100" {{ $data->perPage() == 100 ? 'selected' : '' }}>100</option>
-                                </select>
-                            </div>
-                            
-                            <div class="col-md-2">
-                                <button type="submit" class="btn btn-primary w-100 mb-3">
-                                    <i class="mdi mdi-filter"></i> Filter
-                                </button>
-                            </div>
-                        </div>
-                        
-                        {{-- Sembunyikan input search di dalam form filter --}}
-                        @if(request('search'))
-                            <input type="hidden" name="search" value="{{ request('search') }}">
-                        @endif
-                    </form>
-
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th width="80">#</th>
+                                    <th width="80">No</th>
                                     <th>
                                         Nama Jenis
                                         @if(request('sort') == 'nama_jenis')

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class KategoriDokumen extends Model
 {
@@ -34,12 +35,10 @@ class KategoriDokumen extends Model
     ];
 
     /**
-     * Kolom yang harus disembunyikan saat serialisasi.
-     *
-     * @var array<int, string>
+     * Relasi ke dokumen hukum
      */
-    protected $hidden = [
-        'created_at',
-        'updated_at',
-    ];
+    public function dokumenHukum(): HasMany
+    {
+        return $this->hasMany(DokumenHukum::class, 'kategori_id', 'kategori_id');
+    }
 }

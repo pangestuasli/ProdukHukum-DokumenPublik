@@ -13,14 +13,37 @@ use Illuminate\Support\Facades\Storage;
 class DokumenHukumController extends Controller
 {
     // ========== INDEX ==========
-    public function index()
+    public function index(Request $request)
     {
-        // Load dengan file utama saja
-        $dokumenHukum = DokumenHukum::with(['jenisDokumen', 'kategoriDokumen', 'fileUtama'])
-            ->orderBy('tanggal', 'desc')
-            ->paginate(10);
-            
-        return view('dokumenhukum.index', compact('dokumenHukum'));
+        // Query dasar dengan relasi
+    $query = DokumenHukum::with(['jenisDokumen', 'kategoriDokumen', 'fileUtama']);
+    
+    // Filter pencarian
+    if ($request->has('search') && $request->search != '') {
+        $search = $request->search;
+        $query->where(function($q) use ($search) {
+            $q->where('nomor', 'like', "%{$search}%")
+              ->orWhere('judul', 'like', "%{$search}%")
+              ->orWhere('ringkasan', 'like', "%{$search}%");
+        });
+    }
+    
+    // Filter status
+    if ($request->has('status') && $request->status != '') {
+        $query->where('status', $request->status);
+    }
+    
+    // Sorting default
+    $query->orderBy('tanggal', 'desc');
+    
+    // Pagination
+    $perPage = $request->get('per_page', 10);
+    $dokumenHukum = $query->paginate($perPage);
+    
+    // Simpan query string untuk pagination
+    $dokumenHukum->appends($request->except('page'));
+    
+    return view('dokumenhukum.index', compact('dokumenHukum'));
     }
 
     // ========== CREATE ==========
@@ -28,7 +51,7 @@ class DokumenHukumController extends Controller
     {
         $jenisDokumen = JenisDokumen::orderBy('nama_jenis')->get();
         $kategoriDokumen = KategoriDokumen::orderBy('nama')->get();
-        
+
         return view('dokumenhukum.create', compact('jenisDokumen', 'kategoriDokumen'));
     }
 
@@ -59,13 +82,13 @@ class DokumenHukumController extends Controller
         // 2. SIMPAN FILE
         if ($request->hasFile('file_utama')) {
             $file = $request->file('file_utama');
-            
+
             // Nama file unik
             $fileName = time() . '_' . $file->getClientOriginalName();
-            
+
             // Simpan ke storage
             $path = $file->storeAs('dokumen', $fileName, 'public');
-            
+
             // Simpan ke database
             Media::create([
                 'ref_table' => 'dokumen_hukum',
@@ -85,11 +108,11 @@ class DokumenHukumController extends Controller
     public function show($id)
     {
         $dokumenHukum = DokumenHukum::with([
-                'jenisDokumen', 
-                'kategoriDokumen', 
-                'files'  // Load semua file
-            ])->findOrFail($id);
-            
+            'jenisDokumen',
+            'kategoriDokumen',
+            'files'  // Load semua file
+        ])->findOrFail($id);
+
         return view('dokumenhukum.show', compact('dokumenHukum'));
     }
 
@@ -99,7 +122,7 @@ class DokumenHukumController extends Controller
         $dokumenHukum = DokumenHukum::with('files')->findOrFail($id);
         $jenisDokumen = JenisDokumen::orderBy('nama_jenis')->get();
         $kategoriDokumen = KategoriDokumen::orderBy('nama')->get();
-        
+
         return view('dokumenhukum.edit', compact('dokumenHukum', 'jenisDokumen', 'kategoriDokumen'));
     }
 
@@ -107,7 +130,7 @@ class DokumenHukumController extends Controller
     public function update(Request $request, $id)
     {
         $dokumen = DokumenHukum::findOrFail($id);
-        
+
         $validator = Validator::make($request->all(), [
             'jenis_id' => 'required|exists:jenis_dokumen,jenis_id',
             'kategori_id' => 'required|exists:kategori_dokumen,kategori_id',
@@ -136,12 +159,12 @@ class DokumenHukumController extends Controller
                 Storage::disk('public')->delete($fileLama->file_url);
                 $fileLama->delete();
             }
-            
+
             // Upload file baru
             $file = $request->file('file_utama');
             $fileName = time() . '_' . $file->getClientOriginalName();
             $path = $file->storeAs('dokumen', $fileName, 'public');
-            
+
             Media::create([
                 'ref_table' => 'dokumen_hukum',
                 'ref_id' => $dokumen->dokumen_id,
@@ -160,13 +183,13 @@ class DokumenHukumController extends Controller
     public function destroy($id)
     {
         $dokumen = DokumenHukum::with('files')->findOrFail($id);
-        
+
         // Hapus semua file
         foreach ($dokumen->files as $file) {
             Storage::disk('public')->delete($file->file_url);
             $file->delete();
         }
-        
+
         // Hapus dokumen
         $dokumen->delete();
 
@@ -181,13 +204,13 @@ class DokumenHukumController extends Controller
             ->where('ref_table', 'dokumen_hukum')
             ->where('ref_id', $dokumenId)
             ->firstOrFail();
-            
+
         $path = storage_path('app/public/' . $file->file_url);
-        
+
         if (!file_exists($path)) {
             abort(404, 'File tidak ditemukan');
         }
-        
+
         return response()->download($path, basename($file->file_url));
     }
 
@@ -198,7 +221,7 @@ class DokumenHukumController extends Controller
             ->where('ref_table', 'dokumen_hukum')
             ->where('ref_id', $dokumenId)
             ->firstOrFail();
-            
+
         Storage::disk('public')->delete($file->file_url);
         $file->delete();
 

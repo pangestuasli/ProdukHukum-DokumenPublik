@@ -13,7 +13,7 @@ class RiwayatPerubahan extends Model
     protected $primaryKey = 'riwayat_id';
     
     protected $fillable = [
-        'dokumen_id',
+        'dokumen_id', 
         'tanggal',
         'uraian_perubahan',
         'versi'
@@ -45,6 +45,31 @@ class RiwayatPerubahan extends Model
     public function scopeOrderByVersi($query, $direction = 'desc')
     {
         return $query->orderBy('versi', $direction);
+    }
+
+    /**
+     * Scope untuk pencarian
+     */
+    public function scopeSearch($query, $search)
+    {
+        return $query->where(function($q) use ($search) {
+            $q->where('uraian_perubahan', 'like', "%{$search}%")
+              ->orWhere('versi', 'like', "%{$search}%");
+        });
+    }
+
+    /**
+     * Scope untuk filter tanggal
+     */
+    public function scopeDateRange($query, $startDate, $endDate)
+    {
+        if ($startDate) {
+            $query->whereDate('tanggal', '>=', $startDate);
+        }
+        if ($endDate) {
+            $query->whereDate('tanggal', '<=', $endDate);
+        }
+        return $query;
     }
 
     /**
