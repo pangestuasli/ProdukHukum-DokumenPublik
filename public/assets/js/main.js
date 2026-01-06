@@ -47,6 +47,53 @@
           navbarToggler2.classList.toggle("active");
       })
 
+    // Smooth scroll for page-scroll links
+    document.querySelectorAll('.page-scroll').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            
+            // If href contains #, prevent default and handle scrolling
+            if (href.includes('#')) {
+                e.preventDefault();
+                
+                const urlParts = href.split('#');
+                const pageUrl = urlParts[0];
+                const anchorId = urlParts[1];
+                
+                // If we're already on the target page, just scroll
+                if (pageUrl === '' || pageUrl === window.location.pathname || pageUrl === window.location.href) {
+                    const target = document.querySelector('#' + anchorId);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                } else {
+                    // Navigate to the page with anchor
+                    window.location.href = href;
+                }
+            }
+            // For links without #, let them navigate normally
+        });
+    });
+
+    // Handle initial page load with hash
+    window.addEventListener('load', function() {
+        if (window.location.hash) {
+            const target = document.querySelector(window.location.hash);
+            if (target) {
+                // Small delay to ensure page is fully loaded
+                setTimeout(function() {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }, 100);
+            }
+        }
+    });
+
     // section menu active
 	function onScroll(event) {
 		var sections = document.querySelectorAll('.page-scroll');

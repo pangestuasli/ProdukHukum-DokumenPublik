@@ -26,30 +26,15 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent2">
           <ul class="navbar-nav ml-auto">
 
-            <li class="nav-item">
-              <a class="nav-link active" href="{{ route('dashboard') }}">Home</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('warga.index') }}">Warga</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('jenis_dokumen.index') }}">Jenis Dokumen</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('kategori-dokumen.index') }}">Kategori Dokumen</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('dokumen-hukum.index') }}">Dokumen Hukum</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="#contact">Contact</a>
-            </li>
-
+                      <li class="nav-item">
+                        <a class="page-scroll active" href={{ 'dashboard' }}>Home</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="page-scroll active" href="#PusatData">Pusat Data</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="page-scroll active" href="#contact">Contact</a>
+                      </li>
           </ul>
         </div>
 

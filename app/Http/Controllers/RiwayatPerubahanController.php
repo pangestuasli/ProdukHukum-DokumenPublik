@@ -11,10 +11,24 @@ class RiwayatPerubahanController extends Controller
     /**
      * Tampilkan riwayat perubahan per dokumen
      */
-    public function index()
+    public function index(Request $request)
     {
-        $riwayat = RiwayatPerubahan::with('dokumenHukum')->get();
+        $query = RiwayatPerubahan::with('dokumenHukum');
 
-    return view('riwayat_perubahan.index', compact('riwayat'));
+        // Search berdasarkan deskripsi perubahan atau dokumen judul
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('deskripsi_perubahan', 'like', '%' . $search . '%')
+                  ->orWhereHas('dokumenHukum', function($subQuery) use ($search) {
+                      $subQuery->where('judul', 'like', '%' . $search . '%')
+                               ->orWhere('nomor', 'like', '%' . $search . '%');
+                  });
+            });
+        }
+
+        $riwayat = $query->get();
+
+        return view('riwayat_perubahan.index', compact('riwayat'));
     }
 }

@@ -9,12 +9,22 @@
 
     {{-- Header --}}
     <div class="row mb-4">
-        <div class="col-12 d-flex justify-content-between align-items-center">
+        <div class="col-12 d-flex justify-content-between align-items-center flex-wrap gap-3">
             <div>
                 <h4 class="mb-0 fw-bold text-primary">Kategori Dokumen</h4>
                 <small class="text-muted">Daftar kategori dokumen</small>
             </div>
-            <a href="{{ route('kategori-dokumen.create') }}" class="btn btn-primary">Tambah</a>
+
+            {{-- Search Form --}}
+            <form method="GET" action="{{ route('kategori-dokumen.index') }}" class="d-flex gap-2">
+                <input type="text" name="search" class="form-control" placeholder="Cari kategori..." value="{{ request('search') }}">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                @if(request('search'))
+                    <a href="{{ route('kategori-dokumen.index') }}" class="btn btn-outline-secondary">
+                        <i class="fas fa-times"></i> Clear
+                    </a>
+                @endif
+            </form>
         </div>
     </div>
 
@@ -43,14 +53,7 @@
                     </div>
 
                     {{-- Card Footer --}}
-                    <div class="card-footer kategori-footer">
-                        <a href="{{ route('kategori-dokumen.edit', $k->kategori_id) }}" class="btn btn-warning btn-sm">Edit</a>
-                        <form action="{{ route('kategori-dokumen.destroy', $k->kategori_id) }}" method="POST" style="display:inline">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-danger btn-sm" onclick="return confirm('Hapus data?')">Hapus</button>
-                        </form>
-                    </div>
+                    
 
                 </div>
             </div>
@@ -63,6 +66,50 @@
             </div>
         @endforelse
     </div>
+
+    {{-- Pagination --}}
+    @if($kategori->hasPages())
+    <div class="d-flex justify-content-center mt-4">
+        <nav aria-label="Pagination">
+            <ul class="pagination pagination-lg">
+                {{-- Previous Page Link --}}
+                @if ($kategori->onFirstPage())
+                    <li class="page-item disabled">
+                        <span class="page-link">&laquo;</span>
+                    </li>
+                @else
+                    <li class="page-item">
+                        <a class="page-link" href="{{ $kategori->appends(request()->query())->previousPageUrl() }}" rel="prev">&laquo;</a>
+                    </li>
+                @endif
+
+                {{-- Pagination Elements --}}
+                @foreach ($kategori->getUrlRange(1, $kategori->lastPage()) as $page => $url)
+                    @if ($page == $kategori->currentPage())
+                        <li class="page-item active">
+                            <span class="page-link">{{ $page }}</span>
+                        </li>
+                    @else
+                        <li class="page-item">
+                            <a class="page-link" href="{{ $kategori->appends(request()->query())->url($page) }}">{{ $page }}</a>
+                        </li>
+                    @endif
+                @endforeach
+
+                {{-- Next Page Link --}}
+                @if ($kategori->hasMorePages())
+                    <li class="page-item">
+                        <a class="page-link" href="{{ $kategori->appends(request()->query())->nextPageUrl() }}" rel="next">&raquo;</a>
+                    </li>
+                @else
+                    <li class="page-item disabled">
+                        <span class="page-link">&raquo;</span>
+                    </li>
+                @endif
+            </ul>
+        </nav>
+    </div>
+    @endif
 
 </div>
 @endsection

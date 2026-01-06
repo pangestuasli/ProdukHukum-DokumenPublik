@@ -21,7 +21,7 @@ Route::resource('jenis_dokumen', JenisDokumenController::class);
 Route::resource('kategori-dokumen', KategoriDokumenController::class);
 Route::resource('dokumen-hukum', DokumenHukumController::class);
 
-Route::resource('lampiran-dokumen', LampiranDokumenController::class);
+Route::get('lampiran-dokumen', [LampiranDokumenController::class, 'index'])->name('lampiran-dokumen.index');
 
 
 Route::get('/riwayat-perubahan', [RiwayatPerubahanController::class, 'index'])

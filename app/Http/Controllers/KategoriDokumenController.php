@@ -10,9 +10,17 @@ use Illuminate\Http\Request;
 
 class KategoriDokumenController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $kategori = KategoriDokumen::all();
+        $query = KategoriDokumen::query();
+
+        // Search berdasarkan nama
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where('nama', 'like', '%' . $search . '%');
+        }
+
+        $kategori = $query->paginate(6);
         return view('kategori_dokumen.index', compact('kategori'));
     }
 

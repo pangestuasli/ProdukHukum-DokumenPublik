@@ -7,13 +7,22 @@
 
     {{-- Header --}}
     <div class="row mb-4">
-        <div class="col-12 d-flex justify-content-between align-items-center">
+        <div class="col-12 d-flex justify-content-between align-items-center flex-wrap gap-3">
             <div>
                 <h4 class="mb-0 fw-bold text-primary">Riwayat Perubahan Dokumen</h4>
                 <small class="text-muted">Daftar riwayat perubahan dokumen hukum</small>
             </div>
 
-
+            {{-- Search Form --}}
+            <form method="GET" action="{{ route('riwayat-perubahan.index') }}" class="d-flex gap-2">
+                <input type="text" name="search" class="form-control" placeholder="Cari dokumen atau perubahan..." value="{{ request('search') }}">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                @if(request('search'))
+                    <a href="{{ route('riwayat-perubahan.index') }}" class="btn btn-outline-secondary">
+                        <i class="fas fa-times"></i> Clear
+                    </a>
+                @endif
+            </form>
         </div>
     </div>
 

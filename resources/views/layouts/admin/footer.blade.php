@@ -1,60 +1,51 @@
 <!-- ========================= footer style-1 start ========================= -->
 <footer class="footer footer-style-1">
-  <div class="container">
-    <div class="widget-wrapper" style="padding-top: 20px; padding-bottom: 50px; display: block !important; visibility: visible !important;">
-      <div class="row">
-        <div class="col-xl-3 col-lg-4 col-md-6">
-          <div class="footer-widget wow fadeInUp" data-wow-delay=".2s">
-            <div class="logo">
-              <a href="#0"> <img src="{{ asset('assets/img/logo/image.png') }}" alt="Logo" height="40"> </a>
-              <p>Prokum</p>
+    <section id="contact" class="contact-section py-5 bg-light">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="section-title text-center mb-5">
+                        <h3 class="mb-3">Hubungi Kami</h3>
+                        <p class="text-muted">Untuk informasi lebih lanjut tentang Produk Hukum dan Dokumen Publik</p>
+                    </div>
+
+                    <div class="contact-info text-center">
+                        <div class="row">
+                            <div class="col-md-4 mb-4">
+                                <div class="contact-item">
+                                    <i class="fas fa-map-marker-alt fa-2x text-primary mb-3"></i>
+                                    <h5>Alamat</h5>
+                                    <p class="text-muted">Jl. Contoh No. 123<br>Kota, Provinsi 12345</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="contact-item">
+                                    <i class="fas fa-phone fa-2x text-primary mb-3"></i>
+                                    <h5>Telepon</h5>
+                                    <p class="text-muted">(021) 123-4567<br>(021) 765-4321</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="contact-item">
+                                    <i class="fas fa-envelope fa-2x text-primary mb-3"></i>
+                                    <h5>Email</h5>
+                                    <p class="text-muted">info@produk-hukum.go.id<br>support@produk-hukum.go.id</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <p class="desc">Silahkan Contact Kami Dibawah ini </p>
-            <ul class="socials">
-              <li> <a href="#0"> <i class="lni lni-facebook-filled"></i> </a> </li>
-              <li> <a href="#0"> <i class="lni lni-twitter-filled"></i> </a> </li>
-              <li> <a href="#0"> <i class="lni lni-instagram-filled"></i> </a> </li>
-              <li> <a href="#0"> <i class="lni lni-linkedin-original"></i> </a> </li>
-            </ul>
-          </div>
         </div>
-        <div class="col-xl-2 offset-xl-1 col-lg-2 col-md-6 col-sm-6">
-          <div class="footer-widget wow fadeInUp" data-wow-delay=".3s">
-            <h6 style="text-align: right;">Quick Link</h6>
-            <ul class="links" style="text-align: right;">
-              <li> <a href="#0">Home</a> </li>
-              <li> <a href="#0">About</a> </li>
-              <li> <a href="#0">Service</a> </li>
-              <li> <a href="#0">Contact</a> </li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-          <div class="footer-widget wow fadeInUp" data-wow-delay=".4s">
-            <h6 style="text-align: right;">Services</h6>
-            <ul class="links" style="text-align: right;">
-              <li> <a href="#0">Web Design</a> </li>
-              <li> <a href="#0">Web Development</a> </li>
-              <li> <a href="#0">Seo Optimization</a> </li>
-              <li> <a href="#0">Blog Writing</a> </li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-xl-3 col-lg-3 col-md-6">
-          <div class="footer-widget wow fadeInUp" data-wow-delay=".5s">
-            <h6 style="text-align: right;">Help & Support</h6>
-            <ul class="links" style="text-align: right;">
-              <li> <a href="#0">Support Center</a> </li>
-              <li> <a href="#0">Live Chat</a> </li>
-              <li> <a href="#0">FAQ</a> </li>
-              <li> <a href="#0">Terms & Conditions</a> </li>
-            </ul>
+    </section>
+</footer>
+<!-- ========================= footer style-1 end ========================= -->
           </div>
         </div>
       </div>
     </div>
     <div class="copyright-wrapper wow fadeInUp" data-wow-delay=".2s">
-      <p style="text-align: right;">Design and Developed by <a href="https://uideck.com" rel="nofollow" target="_blank">UIdeck</a> Built-with <a href="#">Lindy UI Kit</a>. Distributed by <a href="https://themewagon.com" target="_blank">ThemeWagon</a></p>
+      <p style="text-align: right;">Design and Developed by FendLinux </p>
     </div>
   </div>
 </footer>

@@ -9,12 +9,22 @@
 
     {{-- Header --}}
     <div class="row mb-4">
-        <div class="col-12 d-flex justify-content-between align-items-center">
+        <div class="col-12 d-flex justify-content-between align-items-center flex-wrap gap-3">
             <div>
                 <h4 class="mb-0 fw-bold text-primary">Jenis Dokumen</h4>
                 <small class="text-muted">Daftar jenis dokumen</small>
             </div>
-            <a href="{{ route('jenis_dokumen.create') }}" class="btn btn-primary">Tambah</a>
+
+            {{-- Search Form --}}
+            <form method="GET" action="{{ route('jenis_dokumen.index') }}" class="d-flex gap-2">
+                <input type="text" name="search" class="form-control" placeholder="Cari jenis dokumen..." value="{{ request('search') }}">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                @if(request('search'))
+                    <a href="{{ route('jenis_dokumen.index') }}" class="btn btn-outline-secondary">
+                        <i class="fas fa-times"></i> Clear
+                    </a>
+                @endif
+            </form>
         </div>
     </div>
 
@@ -42,16 +52,6 @@
                         </div>
                     </div>
 
-                    {{-- Card Footer --}}
-                    <div class="card-footer jenis-footer">
-                        <a href="{{ route('jenis_dokumen.edit', $j->jenis_id) }}" class="btn btn-warning btn-sm">Edit</a>
-                        <form action="{{ route('jenis_dokumen.destroy', $j->jenis_id) }}" method="POST" style="display:inline">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-danger btn-sm" onclick="return confirm('Hapus data?')">Hapus</button>
-                        </form>
-                    </div>
-
                 </div>
             </div>
         @empty
@@ -63,6 +63,50 @@
             </div>
         @endforelse
     </div>
+
+    {{-- Pagination --}}
+    @if($jenis->hasPages())
+    <div class="d-flex justify-content-center mt-4">
+        <nav aria-label="Pagination">
+            <ul class="pagination pagination-lg">
+                {{-- Previous Page Link --}}
+                @if ($jenis->onFirstPage())
+                    <li class="page-item disabled">
+                        <span class="page-link">&laquo;</span>
+                    </li>
+                @else
+                    <li class="page-item">
+                        <a class="page-link" href="{{ $jenis->appends(request()->query())->previousPageUrl() }}" rel="prev">&laquo;</a>
+                    </li>
+                @endif
+
+                {{-- Pagination Elements --}}
+                @foreach ($jenis->getUrlRange(1, $jenis->lastPage()) as $page => $url)
+                    @if ($page == $jenis->currentPage())
+                        <li class="page-item active">
+                            <span class="page-link">{{ $page }}</span>
+                        </li>
+                    @else
+                        <li class="page-item">
+                            <a class="page-link" href="{{ $jenis->appends(request()->query())->url($page) }}">{{ $page }}</a>
+                        </li>
+                    @endif
+                @endforeach
+
+                {{-- Next Page Link --}}
+                @if ($jenis->hasMorePages())
+                    <li class="page-item">
+                        <a class="page-link" href="{{ $jenis->appends(request()->query())->nextPageUrl() }}" rel="next">&raquo;</a>
+                    </li>
+                @else
+                    <li class="page-item disabled">
+                        <span class="page-link">&raquo;</span>
+                    </li>
+                @endif
+            </ul>
+        </nav>
+    </div>
+    @endif
 
 </div>
 @endsection

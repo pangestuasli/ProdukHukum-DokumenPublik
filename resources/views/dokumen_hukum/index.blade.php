@@ -5,7 +5,26 @@
 @section('content')
 <div class="container-fluid">
 
-    
+    {{-- Header --}}
+    <div class="row mb-4">
+        <div class="col-12 d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <div>
+                <h4 class="mb-0 fw-bold text-primary">Dokumen Hukum</h4>
+                <small class="text-muted">Daftar dokumen hukum</small>
+            </div>
+
+            {{-- Search Form --}}
+            <form method="GET" action="{{ route('dokumen-hukum.index') }}" class="d-flex gap-2">
+                <input type="text" name="search" class="form-control" placeholder="Cari judul atau nomor..." value="{{ request('search') }}">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                @if(request('search'))
+                    <a href="{{ route('dokumen-hukum.index') }}" class="btn btn-outline-secondary">
+                        <i class="fas fa-times"></i> Clear
+                    </a>
+                @endif
+            </form>
+        </div>
+    </div>
 
     {{-- Card List --}}
     <div class="row">
@@ -54,15 +73,19 @@
                             <a href="{{ asset('storage/' . $d->file_dokumen) }}" target="_blank">Download File</a>
                         </div>
                         @endif
-                    </div>
+                         </div>
 
                     {{-- Card Footer --}}
                     <div class="card-footer dokumen-footer text-center">
-    <a href="{{ route('riwayat-perubahan.index') }}"
-       class="btn btn-info btn-sm">
-        Lihat Riwayat
-    </a>
-</div>
+                        <div class="d-flex justify-content-center gap-2">
+                            <a href="{{ route('lampiran-dokumen.index') }}" class="btn btn-info btn-sm">
+                                <i class="fas fa-paperclip"></i> Lampiran
+                            </a>
+                            <a href="{{ route('riwayat-perubahan.index') }}" class="btn btn-warning btn-sm">
+                                <i class="fas fa-history"></i> Riwayat
+                            </a>
+                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -75,6 +98,50 @@
             </div>
         @endforelse
     </div>
+
+    {{-- Pagination --}}
+    @if($dokumen->hasPages())
+    <div class="d-flex justify-content-center mt-4">
+        <nav aria-label="Pagination">
+            <ul class="pagination pagination-lg">
+                {{-- Previous Page Link --}}
+                @if ($dokumen->onFirstPage())
+                    <li class="page-item disabled">
+                        <span class="page-link">&laquo;</span>
+                    </li>
+                @else
+                    <li class="page-item">
+                        <a class="page-link" href="{{ $dokumen->appends(request()->query())->previousPageUrl() }}" rel="prev">&laquo;</a>
+                    </li>
+                @endif
+
+                {{-- Pagination Elements --}}
+                @foreach ($dokumen->getUrlRange(1, $dokumen->lastPage()) as $page => $url)
+                    @if ($page == $dokumen->currentPage())
+                        <li class="page-item active">
+                            <span class="page-link">{{ $page }}</span>
+                        </li>
+                    @else
+                        <li class="page-item">
+                            <a class="page-link" href="{{ $dokumen->appends(request()->query())->url($page) }}">{{ $page }}</a>
+                        </li>
+                    @endif
+                @endforeach
+
+                {{-- Next Page Link --}}
+                @if ($dokumen->hasMorePages())
+                    <li class="page-item">
+                        <a class="page-link" href="{{ $dokumen->appends(request()->query())->nextPageUrl() }}" rel="next">&raquo;</a>
+                    </li>
+                @else
+                    <li class="page-item disabled">
+                        <span class="page-link">&raquo;</span>
+                    </li>
+                @endif
+            </ul>
+        </nav>
+    </div>
+    @endif
 
 </div>
 @endsection

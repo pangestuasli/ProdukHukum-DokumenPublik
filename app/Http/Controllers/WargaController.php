@@ -6,9 +6,25 @@ use Illuminate\Http\Request;
 
 class WargaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $wargas = Warga::all();
+        $query = Warga::query();
+
+        // Filter berdasarkan jenis kelamin
+        if ($request->has('jenis_kelamin') && $request->jenis_kelamin != '') {
+            $query->where('jenis_kelamin', $request->jenis_kelamin);
+        }
+
+        // Search berdasarkan nama atau no_ktp
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('nama', 'like', '%' . $search . '%')
+                  ->orWhere('no_ktp', 'like', '%' . $search . '%');
+            });
+        }
+
+        $wargas = $query->paginate(4);
         return view('warga.index', compact('wargas'));
     }
 

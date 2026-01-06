@@ -10,9 +10,21 @@ use Illuminate\Support\Facades\Storage;
 
 class DokumenHukumController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $dokumen = DokumenHukum::with(['jenis', 'kategori'])->get();
+        $query = DokumenHukum::with(['jenis', 'kategori']);
+
+        // Search berdasarkan judul atau nomor
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('judul', 'like', '%' . $search . '%')
+                  ->orWhere('nomor', 'like', '%' . $search . '%')
+                  ->orWhere('ringkasan', 'like', '%' . $search . '%');
+            });
+        }
+
+        $dokumen = $query->paginate(6);
         $jenis = JenisDokumen::all();
         $kategori = KategoriDokumen::all();
 

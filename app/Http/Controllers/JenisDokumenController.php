@@ -10,9 +10,18 @@ use Illuminate\Http\Request;
 
 class JenisDokumenController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $jenis = JenisDokumen::all();
+        $query = JenisDokumen::query();
+
+        // Search berdasarkan nama_jenis
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where('nama_jenis', 'like', '%' . $search . '%')
+                  ->orWhere('deskripsi', 'like', '%' . $search . '%');
+        }
+
+        $jenis = $query->paginate(4);
         return view('jenis_dokumen.index', compact('jenis'));
     }
 
